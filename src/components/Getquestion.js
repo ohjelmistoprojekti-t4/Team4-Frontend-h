@@ -8,10 +8,9 @@ export default function Getquestion() {
     useEffect(() => fetchData(), [])
 
     const fetchData = () => {
-        fetch('https://ohjprj1-backend.herokuapp.com/questionsApi')
+        fetch('http://localhost:8080/questions')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             setQuestions(data);
         })
     }
@@ -22,9 +21,9 @@ export default function Getquestion() {
     let option1, option2, option3;
     if (questions !== undefined) {
         for (let i=0; i < questions.length; i++) {
-            questionId = questions[0].id;
-            question = questions[0].question;
-            options = Object.values(questions[i].option);
+            questionId = questions[1].id;
+            question = questions[1].question;
+            options = Object.values(questions[1].option);
             option1 = options[0];
             option2 = options[1];
             option3 = options[2];
@@ -33,6 +32,9 @@ export default function Getquestion() {
     }
     
     return (
+        <>
+
+
         <Form>
                     <p className="question-p">{question} (id: {questionId}) </p>
 
@@ -62,5 +64,7 @@ export default function Getquestion() {
                     <Button variant="primary" className="submit-question">Submit</Button>
   
                 </Form>
+                
+        </>
     )
 }

@@ -1,13 +1,31 @@
 import React from 'react'
+import QuestionPresenter from './QuestionPresenter';
 
-const QuestionPresenter = (props) => {
+export default function Getquestions(props) {
 
-  const newList = props.questions.filter(element => element.type === props.typeId)
+    return(
+      <div>
+        <h3>All question types:</h3>
+        <ul>
+          {props.questions.map(item => (
+          <li key={item.id}>{item.question}
 
-  return(
-    <ul>
-        {newList.map(item => (<li key='item.id'>{item.question}</li>))}
-    </ul>
-  )
+            <ul><li>Tyypin {item.type} vastausvaihtoehdot</li></ul>
+
+          </li>))}
+        </ul>
+
+
+        <h3>Question Type 1:</h3>
+        <QuestionPresenter questions={props.questions} typeId={1} />
+
+        <h3>Question Type 2:</h3>
+        <QuestionPresenter questions={props.questions} typeId={2} />
+
+        <h3>Question Type 3:</h3>
+        <QuestionPresenter questions={props.questions} typeId={3} />
+
+        
+      </div>
+    )
 }
-export default QuestionPresenter
