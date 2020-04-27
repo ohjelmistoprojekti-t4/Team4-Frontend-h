@@ -11,7 +11,7 @@ export default function Questions() {
     useEffect(() => fetchData(), [])
 
     const fetchData = () => {
-        fetch('http://localhost:8080/questions')
+        fetch('https://team4back.herokuapp.com/questions')
         .then(response => response.json())
         .then(data => setQuestions(data))
     }

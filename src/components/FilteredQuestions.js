@@ -1,5 +1,6 @@
 import React from 'react'
 import QuestionPresenter from './QuestionPresenter';
+import Radio from './Radio';
 
 export default function Getquestions(props) {
 
@@ -10,7 +11,7 @@ export default function Getquestions(props) {
           {props.questions.map(item => (
           <li key={item.id}>{item.question}
 
-            <ul><li>Tyypin {item.type} vastausvaihtoehdot</li></ul>
+            <ul><li><Radio options={item.option} /></li></ul>
 
           </li>))}
         </ul>
@@ -25,7 +26,7 @@ export default function Getquestions(props) {
         <h3>Question Type 3:</h3>
         <QuestionPresenter questions={props.questions} typeId={3} />
 
-        
+
       </div>
     )
 }
