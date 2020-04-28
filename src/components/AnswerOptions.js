@@ -4,7 +4,6 @@ import {useState, useEffect} from 'react'
 const AnswerOptions = (props) => {
 
   const [options, setOptions] = useState([])
-  let typeToLoad;
 
   useEffect(() => fetchData(), [])
 

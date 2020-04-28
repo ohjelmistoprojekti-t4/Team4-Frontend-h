@@ -7,9 +7,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export default function Questions() {
 
     const [questions, setQuestions] = useState([]);
-    const [newAnswer, setNewAnswer] = React.useState({'answer':'','refAnswerQuestion':'' }); 
+    const [newAnswer, setNewAnswer] = React.useState({'textAnswer':'','refAnswerQuestion':'' }); 
 
     useEffect(() => fetchData(), [])
+    useEffect(() => {
+        if (newAnswer.refAnswerQuestion !== "") {
+        addAnswer(newAnswer);
+        console.log(newAnswer);
+        }
+    });
 
     const fetchData = () => {
         fetch('http://localhost:8080/api/questions')
@@ -17,8 +23,8 @@ export default function Questions() {
         .then(data => setQuestions(data._embedded.questions))
     }
 
-    const addAnswer= (questionLink, answer) => {
-        fetch(questionLink, {
+    const addAnswer= (answer) => {
+        fetch('http://localhost:8080/api/userAnswers', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -26,20 +32,15 @@ export default function Questions() {
             body: JSON.stringify(answer)
         })
         .catch(err => console.log(err))
-        
       };
 
+      
     const handleSubmit = (event) => {
         event.preventDefault();
         let form = new FormData(document.getElementById("questions-form"));
         for (var key of form.keys()) {
-            console.log(key);
-            console.log(form.get(key));
-            setNewAnswer({'answer' : form.get(key),'refAnswerQuestion' : key });
-            console.log(newAnswer);
-            addAnswer(key, newAnswer);
-            
-         }
+            setNewAnswer({'textAnswer' : form.get(key),'refAnswerQuestion' : key });
+        }
     }
 
     return (
