@@ -11,7 +11,11 @@
 }
 
 .main-h1 {
-  margin: 4rem 0 2rem 0;
+  margin: 1.5em 0 1em 0;
+}
+
+form {
+  margin-bottom: 6em;
 }
 
 .question-p {
@@ -19,6 +23,30 @@
 }
 
 .submit-question {
-  margin-top: 2rem;
+  margin-top: 2em;
+}
+
+.questions-ul li {
+  list-style: none;
+}
+
+.question-li {
+  padding: 1em 2em;
+  max-width: 30em;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  margin-bottom: 1.5em;
+
+}
+.options-ul {
+  margin-top: 0.5em;
+}
+
+.options-ul li {
+  list-style: none;
+}
+
+.options-ul li label {
+  margin-left: 0.4rem;
 }
 
