@@ -5,6 +5,7 @@ import Questions from './components/Questions';
 import Results from './components/Results';
 import './App.css';
 import AddRadioQuestion from './components/AddRadioQuestion';
+import AddSurvey from './components/AddSurvey';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
           <Route path="/questions" component={Questions} />
           <Route path="/results" component={Results} />
           <Route path="/addradioquestion" component={AddRadioQuestion} />
+          <Route path="/addsurvey" component={AddSurvey} />
           <Redirect from="/" to="/questions"/>
                 
         </Switch>
