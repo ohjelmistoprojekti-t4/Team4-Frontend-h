@@ -19,7 +19,7 @@ export default function Questions() {
     });
 
     const fetchData = () => {
-        fetch('http://localhost:8080/api/questions')
+        fetch('https://team4back.herokuapp.com/api/questions')
         .then(response => response.json())
         .then(data => setQuestions(data._embedded.questions))
     }
