@@ -8,49 +8,6 @@ export default function Results() {
 
     const [userAnswers, setUserAnswers] = useState([]);
     useEffect(() => fetchData(), [])
-    
-    function combineKeyData(data) {
-        var output = {}, item;
-        for (var i = 0; i < data.length; i++) {
-            item = data[i];
-            for (var prop in item) {
-                if (item.hasOwnProperty(prop)) {
-                    if (!(prop in output)) {
-                        output[prop] = [];
-                    }
-                    output[prop].push(item[prop]);
-                }
-            }
-        }
-        return output;
-    }
-    
- 
-  
-    var result = [];
-
-    function sortAnswers(input) {
-        for (var i = 0; i < input.length; i++) {
-            var data = input[i];
-            var found=false;
-            for(var j=0; j<result.length; j++) {
-                if(result[j].refQuestionId === data.refQuestionId) {
-                    found=true;
-                    result[j].value = data.value;
-                    break;
-                }
-            }
-            if(!found) {
-                result.push(data);
-            }
-        }
-    }
-
-
-    if (userAnswers.length > 0) {
-        let result = sortAnswers(userAnswers);
-        console.log(result);
-    }
 
     const fetchData = () => {
         fetch('http://localhost:8080/getUserAnswers')
@@ -58,25 +15,39 @@ export default function Results() {
         .then(data => setUserAnswers(data))
     }
     
+    const listing = [];
+
+    const groupAnswers = () => {
+
+        for (let i=0; i < userAnswers.length; i++) {
+
+            if (!(userAnswers[i].refQuestionString in listing)) {
+                listing[userAnswers[i].refQuestionString] = [];
+            }
+            listing[userAnswers[i].refQuestionString].push(userAnswers[i].textAnswer);
+        }
+    }
+    groupAnswers();
 
     return (
         <>
     
-        <Container fluid={"xl"} className="BodyContainer">
+        <Container fluid={"xl"} className="BodyContainer results-component">
 
             <Row>
                 <Col md={12}>
                 <h1 className="main-h1">Tulokset</h1>
 
                 <h3>Vastaukset kysymyksen mukaan ryhmiteltyinä</h3>
-                    <ul>
-                    {userAnswers.map(item => (
-                    <li key={item.userAnswerId}>{item.refQuestionString}
-
-                        <ul><li>{item.textAnswer}</li></ul>
-
-                    </li>))}
+                
+                {Object.keys(listing).map(key => 
+                <div className="result-div">
+                    <h6>{key}</h6>
+                    <ul className="single-answer-ul">
+                       { listing[key].map((answer) => <li>{answer}</li>) }
                     </ul>
+                </div>
+                )}
     
                 </Col>
         

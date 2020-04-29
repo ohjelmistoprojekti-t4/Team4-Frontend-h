@@ -14,6 +14,8 @@
   margin: 1.5em 0 1em 0;
 }
 
+/******* Questions *******/
+
 form {
   margin-bottom: 6em;
 }
@@ -50,3 +52,40 @@ form {
   margin-left: 0.4rem;
 }
 
+/******* Result *******/
+
+.results-component h3 {
+  font-weight: 300;
+}
+
+.result-div {
+  padding: 0;
+  max-width: 30em;
+  margin-top: 2em;
+}
+
+.result-div h6 {
+  padding: 1em 1.2em;
+  margin: 0;
+  display: block;
+  font-size: 1.2em;
+}
+
+.single-answer-ul {
+  background-color: #fff;
+  border-top: 1px solid #e6e6e6;
+  padding: 0;
+  max-width: 30em;
+}
+
+.single-answer-ul li {
+  background: #fdfdfd;
+  list-style: none;
+  padding: 1em 3em;
+  margin: 0.2em 0;
+  font-size: 1.2em;
+}
+
+.single-answer-ul li:nth-child(2) {
+  background: #fdfdfd;
+}

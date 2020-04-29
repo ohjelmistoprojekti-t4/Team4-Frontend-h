@@ -1,6 +1,7 @@
 import React from 'react';
 import {useState, useEffect} from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import ListOfQuestions from './ListOfQuestions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -39,8 +40,10 @@ export default function Questions() {
         event.preventDefault();
         let form = new FormData(document.getElementById("questions-form"));
         for (var key of form.keys()) {
+            console.log("Key: ", form.get(key));
             setNewAnswer({'textAnswer' : form.get(key),'refAnswerQuestion' : key });
         }
+        console.log(newAnswer);
     }
 
     return (

@@ -16,6 +16,8 @@ export default function ListOfQuestions(props) {
       questionsArr.push(value);
   })
 
+  console.log("questionArr", questionsArr);
+
   return(
       <ul className="questions-ul">
         {questionsArr.map( (item,i) => <li key={i} className="question-li">{item.question}
