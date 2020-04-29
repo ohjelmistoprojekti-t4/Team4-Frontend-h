@@ -5,8 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 export default function AddSurvey(props) {
-    const [newSurvey, setNewSurvey] = useState({ name: ''
-    })
+    const [newSurvey, setNewSurvey] = useState({ name: ''})
     
 
   const handleChange = (event) => {
@@ -39,6 +38,8 @@ export default function AddSurvey(props) {
             <Row>
                 <Col lg={10}>
         
+                <h1 className="main-h1">Tulokset</h1>
+    
                     <form onSubmit={handleSubmit} id="survey-form">
                         <label for="name">Luo kysely:</label> <br></br>
                         <input type="text" id="1" name="name" value={newSurvey.name} onChange={handleChange} />

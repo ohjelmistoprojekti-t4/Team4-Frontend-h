@@ -1,23 +1,59 @@
-import React from 'react'
+import React from 'react';
+import {useState, useEffect} from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import Select from 'react-select';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function AddRadioQuestion(props) {
+
+
     const [radioQuestion, setRadioQuestion] = React.useState({
         question: '', option1: '', option2: '', option3: ''
-    })
+    });
     
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [surveys, setSurveys] = useState([]);
 
-  const handleInputChange = (event) => {
-    setRadioQuestion({...radioQuestion, [event.target.name]: event.target.value})
-    console.log("lomake", radioQuestion)
-  }
+    const options = [];
+    
+    useEffect(() => fetchData(), [])
+
+    useEffect(() => {
+        if (surveys !== "") {
+            console.log("surveys", surveys);
+            surveys.map(survey => options.push({value: survey._links.self.href, label: survey.name}))
+        }
+    });
+
+    const handleInputChange = (event) => {
+        setRadioQuestion({...radioQuestion, [event.target.name]: event.target.value})
+        console.log("lomake", radioQuestion)
+    };
+
+    const handleChange = (selectedOption) => {
+        setSelectedOption(selectedOption);
+        console.log("Option selected:", selectedOption);    
+    };
+
+    const fetchData = () => {
+        fetch('https://team4back.herokuapp.com/api/surveys')
+        .then(response => response.json())
+        .then(data => {
+            setSurveys(data._embedded.surveys);
+        })
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         console.log("lomake", radioQuestion)
 
-        const questionBody = { "question": radioQuestion.question, "type": 1 }
+        if (!selectedOption) {
+            alert("Ennen kysymyksen tallentamista pitää valita kysely!");
+            return;
+        }
+
+        const questionBody = { "question": radioQuestion.question, "type": 1, "survey" : selectedOption.value }
+        //const questionBody = { "question": radioQuestion.question, "type": 1 }
         
         const response = await fetch('https://team4back.herokuapp.com/api/questions', {
             method: 'POST',
@@ -27,10 +63,9 @@ export default function AddRadioQuestion(props) {
             body: JSON.stringify(questionBody)
         })
         
-        
         try {
             const data = await response.json()
-            console.log(data._links.question)
+          //yyy  console.log(data._links.question)
 
             const optionsList = [ radioQuestion.option1, radioQuestion.option2, radioQuestion.option3 ]
             optionsList.forEach( async item => {
@@ -63,9 +98,18 @@ export default function AddRadioQuestion(props) {
         <Container fluid={"xl"} className="BodyContainer add-question-component">
 
             <Row>
-                <Col md={12}>
+                <Col md={8}>
+
                 <h1 className="main-h1">Lisää kysymyksiä</h1>
 
+                <h3>Valitse kysely, johon lisätään uusia kysymyksiä</h3>
+                <Select
+                    className="select-survey"
+                    value={selectedOption}
+                    onChange={handleChange}
+                    options={options}
+                    placeholder="Valitse kysely..."
+                />
                 <h3>Lisää uusi monivalintakysymys (radio)</h3>
                 <form className="add-radio-form" onSubmit={handleSubmit}>
                     <label for="question">Radio Kysymys:</label> <br />

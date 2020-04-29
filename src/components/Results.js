@@ -2,11 +2,13 @@ import React from 'react';
 import {useState, useEffect} from 'react'
 import _ from 'lodash'
 import { Container, Row, Col } from 'react-bootstrap';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Results() {
 
     const [userAnswers, setUserAnswers] = useState([]);
+
     useEffect(() => fetchData(), [])
 
     const fetchData = () => {
@@ -14,11 +16,11 @@ export default function Results() {
         .then(response => response.json())
         .then(data => setUserAnswers(data))
     }
+
     
     const listing = [];
 
     const groupAnswers = () => {
-
         for (let i=0; i < userAnswers.length; i++) {
 
             if (!(userAnswers[i].refQuestionString in listing)) {

@@ -93,6 +93,10 @@ form {
 
 /******* Add Question *******/
 
+.select-survey {
+  max-width: 40em;
+  margin: 2em 0 3em;
+}
 .add-radio-form {
   padding: 1em 2em;
 }
