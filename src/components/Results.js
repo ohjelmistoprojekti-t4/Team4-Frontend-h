@@ -10,7 +10,7 @@ export default function Results() {
     useEffect(() => fetchData(), [])
 
     const fetchData = () => {
-        fetch('http://localhost:8080/getUserAnswers')
+        fetch('https://team4back.herokuapp.com/getUserAnswers')
         .then(response => response.json())
         .then(data => setUserAnswers(data))
     }

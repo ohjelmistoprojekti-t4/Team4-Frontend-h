@@ -1,4 +1,5 @@
 import React from 'react'
+import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function AddRadioQuestion(props) {
@@ -59,27 +60,36 @@ export default function AddRadioQuestion(props) {
     }
 
     return  (
-        <div>
-        <form onSubmit={handleSubmit}>
-            <label for="question">Radio Kysymys:</label> <br></br>
-            <input type="text" id="1" name="question" value={radioQuestion.question} onChange={handleInputChange} />
-            <br></br>
+        <Container fluid={"xl"} className="BodyContainer add-question-component">
 
-            <label for="option1">Vaihtoehto 1</label> <br></br>
-            <input type="text" id="2" name="option1" value={radioQuestion.option1} onChange={handleInputChange} />
-            <br></br>
+            <Row>
+                <Col md={12}>
+                <h1 className="main-h1">Lisää kysymyksiä</h1>
 
-             <label for="option2">Vaihtoehto 2</label> <br></br>
-            <input type="text" id="3" name="option2" value={radioQuestion.option2} onChange={handleInputChange} />
-            <br></br>
+                <h3>Lisää uusi monivalintakysymys (radio)</h3>
+                <form className="add-radio-form" onSubmit={handleSubmit}>
+                    <label for="question">Radio Kysymys:</label> <br />
+                    <input type="text" id="1" name="question" value={radioQuestion.question} onChange={handleInputChange} />
+                    <br /><br />
 
-            <label for="option3">Vaihtoehto 3</label> <br></br>
-            <input type="text" id="4" name="option3" value={radioQuestion.option3} onChange={handleInputChange} />
-            <br></br>
-            <br></br>
+                    <label for="option1">Vaihtoehto 1</label> <br />
+                    <input type="text" id="2" name="option1" value={radioQuestion.option1} onChange={handleInputChange} />
+                    <br />
 
-            <input type="submit" value="Lähetä" />
-        </form>
-        </div>
+                    <label for="option2">Vaihtoehto 2</label> <br />
+                    <input type="text" id="3" name="option2" value={radioQuestion.option2} onChange={handleInputChange} />
+                    <br />
+
+                    <label for="option3">Vaihtoehto 3</label> <br />
+                    <input type="text" id="4" name="option3" value={radioQuestion.option3} onChange={handleInputChange} />
+                    <br />
+                    <br />
+
+                    <input type="submit" value="Lähetä" />
+                </form>
+                </Col>
+            </Row>
+
+    </Container>
     )
 }

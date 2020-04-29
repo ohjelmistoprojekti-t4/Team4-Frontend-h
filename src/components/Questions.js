@@ -25,7 +25,7 @@ export default function Questions() {
     }
 
     const addAnswer= (answer) => {
-        fetch('http://localhost:8080/api/userAnswers', {
+        fetch('https://team4back.herokuapp.com/api/userAnswers', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
