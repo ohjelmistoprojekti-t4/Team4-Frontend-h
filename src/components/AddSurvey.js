@@ -38,7 +38,7 @@ export default function AddSurvey(props) {
             <Row>
                 <Col lg={10}>
         
-                <h1 className="main-h1">Tulokset</h1>
+                <h1 className="main-h1">Uusi kysely</h1>
     
                     <form onSubmit={handleSubmit} id="survey-form">
                         <label for="name">Luo kysely:</label> <br></br>
