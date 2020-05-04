@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import ListOfQuestions from './ListOfQuestions';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ShowQuestionsByOne from './ShowQuestionByOne';
 
 export default function Questions() {
 
@@ -36,7 +37,7 @@ export default function Questions() {
       };
 
       
-    const handleSubmit = (event) => {
+/*     const handleSubmit = (event) => {
         event.preventDefault();
         let form = new FormData(document.getElementById("questions-form"));
         for (var key of form.keys()) {
@@ -44,7 +45,7 @@ export default function Questions() {
             setNewAnswer({'textAnswer' : form.get(key),'refAnswerQuestion' : key });
         }
         console.log(newAnswer);
-    }
+    } */
 
     return (
         
@@ -52,15 +53,9 @@ export default function Questions() {
 
             <Row>
                 <Col lg={10}>
+                    
                     <h1 className="main-h1">Kysymykset</h1>
-
-                    <form onSubmit={handleSubmit} id="questions-form">
-
-                        <ListOfQuestions questions={questions} />
-
-                        <button>Lähetä vastaukset</button>
-
-                    </form>
+                        <ShowQuestionsByOne questions={questions} />
      
                 </Col>
         

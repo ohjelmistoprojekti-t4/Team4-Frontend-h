@@ -20,7 +20,7 @@ export default function ListOfQuestions(props) {
 
   return(
       <ul className="questions-ul">
-        {questionsArr.map( (item,i) => <li key={i} className="question-li">{item.question}
+        {props.questions.map( (item,i) => <li key={i} className="question-li">{item.question}
           <ul className="options-ul">
             <AnswerOptions link={item._links.self.href} type={item.type} />
           </ul>

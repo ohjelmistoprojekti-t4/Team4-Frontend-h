@@ -52,8 +52,9 @@ export default function AddRadioQuestion(props) {
             return;
         }
 
-        const questionBody = { "question": radioQuestion.question, "type": 1, "survey" : selectedOption.value }
-        //const questionBody = { "question": radioQuestion.question, "type": 1 }
+        const questionBody = { "question": radioQuestion.question, "type": 1, "survey" : selectedOption.value };
+        console.log("questionB", questionBody)
+
         
         const response = await fetch('https://team4back.herokuapp.com/api/questions', {
             method: 'POST',
