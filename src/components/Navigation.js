@@ -15,7 +15,7 @@ export default function Navigation() {
                     <NavLink to="/questions" activeClassName="active">Kysely</NavLink>
                     <NavLink to="/results" activeClassName="active">Tulokset</NavLink>
                     <NavLink to="/addsurvey" activeClassName="active">Lisää uusi kysely</NavLink>
-                    <NavLink to="/addradioquestion" activeClassName="active">Lisää kyselyyn radio-kysymyksiä</NavLink>
+                    <NavLink to="/addquestion" activeClassName="active">Lisää kyselyyn kysymyksiä</NavLink>
                 </Nav>
                 
             </Navbar.Collapse>
