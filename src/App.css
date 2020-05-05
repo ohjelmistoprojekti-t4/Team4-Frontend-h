@@ -5,16 +5,31 @@ body {
   background-color: #ffffff;
 background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23e0d8ec' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
 }
-.navbar a.navbar-brand {
-  padding: 0.95rem 2rem 1.2rem 2rem;
+.navbar {
+  padding: 0 2rem 0 2rem;
+}
+
+.navbar-brand{
+  padding: 0 3rem 0 2rem;
 }
 
 .navbar-nav a {
-  padding: 1rem 1rem 1.2rem 1rem;
+  padding: 1.2rem 1.4rem 1.3rem 1.4rem;
+    color: #24cfbe;
+    /* text-transform: uppercase; */
+    font-family: 'lato', sans-serif;
+    font-weight: 700;
+    font-size: 1.2em;
 }
 
 .navbar-nav a.active {
-  font-weight: bold;
+  color: #7aa3cc;
+  background: rgba(0,0,0,0.05);
+}
+
+.navbar-nav a:hover {
+  text-decoration: none;
+  color: #7aa3cc;
 }
 
 .main-h1 {
