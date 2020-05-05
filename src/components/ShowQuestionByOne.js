@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import AnswerOptions from './AnswerOptions';
-import ProgressBar from './ProgressBar';
+import ProgressBar from './form-elements/ProgressBar';
 
 export default function ShowQuestionsByOne(props) {
 
@@ -25,7 +25,7 @@ export default function ShowQuestionsByOne(props) {
 
     const callbackFunction = () => {
         console.log("Index before increment: ", index);
-        setStatePersentage( 100* (index + 1) / questionsArr.length);
+        
         console.log("Persentage:", statePersentage);
         nextQuestion();
    }
@@ -51,27 +51,30 @@ export default function ShowQuestionsByOne(props) {
     
 
     const Question = () => {
+        
         if (questionsArr[index] && questionsArr[index]._links) {
+            setStatePersentage( 100* (index + 1) / questionsArr.length);
             return (
-                <ul className="questions-ul" id="showSingle">
-                    <li>Kysymys {index + 1} / {questionsArr.length}</li>
-                    <li className="question-li">{questionsArr[index].question}
-                        <ul className="options-ul">
+                <div className="question-container" id="showSingle">
+                    <ProgressBar percentage={statePersentage} />
+                    <div className="question-count">{index + 1}/{questionsArr.length}</div>
+                    <div className="question-card"><h5 className="question-heading">{questionsArr[index].question}</h5>
+                        
                             <AnswerOptions
                                 btnLabel={btnLabel} 
                                 link={questionsArr[index]._links.self.href} 
                                 type={questionsArr[index].type}
                                 questionString={questionsArr[index].question}  
                                 parentCallback = {callbackFunction} />
-                        </ul>
-                    </li>
-                </ul>
+                        
+                    </div>
+                </div>
             )
         } else {
             return (
-                <ul className="questions-ul">
-                    <li className="question-li">Ladataan kysymystä...</li>
-                </ul>
+                <div className="qusestion-container">
+                    <h5 className="question-heading">Ladataan kysymystä...</h5>
+                </div>
             )
         }
     }
@@ -79,13 +82,20 @@ export default function ShowQuestionsByOne(props) {
     if (!lastQuestion) {
         return(
             <>
-            <ProgressBar percentage={statePersentage} />
             <Question />
             </>
         )
     } else {
         return (
-            <p>Tuloksia!</p>
+            <div className="question-container" id="showSingle">
+            
+            <div className="question-card"><h5 className="question-heading">Siinä se!</h5>
+                
+            <p>Ei muuta kysyttävää, kiitos.</p>
+                
+            </div>
+        </div>
+            
         )
     }
 

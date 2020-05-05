@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,900&display=swap');
+
+body {
+  background: #fafafa;  /* fallback for old browsers */
+  background-color: #ffffff;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23e0d8ec' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
 .navbar a.navbar-brand {
   padding: 0.95rem 2rem 1.2rem 2rem;
 }
@@ -21,42 +28,114 @@
   display:none;
 }
 
-form {
-  margin-bottom: 6em;
+.question-container {
+  border: 0 solid #e6e6e6;
+  padding: 2em 3em 2em 3em;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0 3px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05);
+  background: #fff;;
 }
 
-.question-p {
-  font-weight: bold;
+.question-card {
+  padding: 0;
+
+}
+.question-heading {
+  font-weight: 500;
+  text-align: left;
+  font-size: 1.9em;
+  color: #7AA3CC;
+  margin: -0.3em 1em 1.3em 0;
 }
 
-.submit-question {
-  margin-top: 2em;
+.options-container {
+  min-height: 7em;
+  padding-left: 25%;
+  margin-bottom: 2.7em;
+
 }
 
-.questions-ul li {
+.options-container li {
   list-style: none;
+  margin-bottom: 1em;
 }
 
-.question-li {
-  padding: 1em 2em;
-  min-height: 11em;
-  max-width: 30em;
-  border: 1px solid #e6e6e6;
+.option-label {
+  font-size: 1.5em;
+  line-height: 1.2;
+  color: #838383;
+}
+.option-label:hover {
+  color: #7AA3CC;
+}
+
+.checkbox-input:checked + .label-text:before, .radio-input:checked + .label-text:before {
+  color: #7AA3CC;
+}
+.checkbox-input:checked + .label-text, .radio-input:checked + .label-text {
+  color: #7AA3CC;
+}
+
+.icon {
+  padding: 0;
+  margin: 0;
+  font-size: 1.3em;
+  color: #7AA3CC;
+  text-align: center;
+}
+
+.answerInput {
+  outline: none;
+  border: none;
+  border-bottom: 2px solid #DDDDDD;
+  padding: 0.5em;
+  font-size: 1.5em;
+
+}
+
+.answerInput:focus {
+  border-bottom: 2px solid #7AA3CC;
+}
+
+.answerInput[placeholder]:focus::-webkit-input-placeholder {
+  color: gray;
+  opacity: 1;
+}
+
+
+
+.btnSubmitQuestion {
+  margin-top: 1em;
+  padding: 0.5em 3em;
+  display: flex;
+  margin-left: auto;
+  border: 0.16em solid #DDDDDD;
   border-radius: 10px;
-  margin-bottom: 1.5em;
+  box-sizing: border-box;
+  text-decoration: none;
+  text-transform: normal;
+  font-family: sans-serif;
+  font-weight:600;
+  color: #7AA3CC;
+  text-align: center;
+  transition: all 0.15s;
+  background: #fff;
+}
 
-}
-.options-ul {
-  margin-top: 0.5em;
-}
-
-.options-ul li {
-  list-style: none;
+.btnSubmitQuestion:hover{
+  color:#6e95bb;
+  border-color:#cccccc;
 }
 
-.options-ul li label {
-  margin-left: 0.4rem;
+.btnSubmitQuestion:active{
+  color:#BBBBBB;
+  border-color:#BBBBBB;
+  outline: none;
+  margin-right: -3px;
 }
+
+
 
 /******* Result *******/
 
@@ -108,18 +187,45 @@ form {
 
 /******* ProgressBar *******/
 
+
 .progress-bar {
   position: relative;
-  height: 20px;
-  width: 500px;
-  border-radius: 10px;
-  background-color: #e2e2e2;
-  border: 5px solid rgb(243, 243, 243);
+  height: 0.4em;
+  background-color: #f0f0f0;
+  border: 0px solid rgb(243, 243, 243);
+  border-top-left-radius: 10px;
+  margin: -2em -3em 0 -3em;
 }
 
 .filler {
-  background: rgb(36, 207, 190);
+  background: #24cfbe;
   height: 100%;
   border-radius: inherit;
   transition: width .2s ease-in;
+
+/*   background-image: 
+    repeating-linear-gradient(
+      -45deg, 
+      transparent, 
+      transparent 1rem,
+      #ccc 1rem,
+      #ccc 2rem
+    );
+  background-size: 200% 200%;
+  animation: barberpole 10s linear infinite;
+}
+
+@keyframes barberpole {
+  0% {
+    background-position: 100% 100%;
+  }
+ */
+}
+
+
+.question-count {
+  text-align: right;
+  color: #e2e2e2;
+  font-size: 2.5em;
+  font-variant: diagonal-fractions;
 }
