@@ -2,10 +2,19 @@ import React from 'react';
 import {useState, useEffect} from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import SurveyList from './SurveyList';
 
 
-export default function AddSurvey(props) {
+export default function AddSurvey() {
     const [newSurvey, setNewSurvey] = useState({ name: ''})
+    const [surveys, setSurveys] = useState([])
+
+    useEffect(() => fetchData(), [])
+    const fetchData = () => {
+        fetch('https://team4back.herokuapp.com/api/surveys')
+        .then(response => response.json())
+        .then(data => setSurveys(data._embedded.surveys))
+    }
     
 
   const handleChange = (event) => {
@@ -28,7 +37,8 @@ export default function AddSurvey(props) {
             body: JSON.stringify(surveyBody)
         }) 
         console.log("Survey", surveyBody)
-          
+
+        window.location.reload(false);
     };
 
 
@@ -38,7 +48,7 @@ export default function AddSurvey(props) {
             <Row>
                 <Col lg={10}>
         
-                <h1 className="main-h1">Uusi kysely</h1>
+                <h1 className="main-h1">Lisää kysely</h1>
     
                     <form onSubmit={handleSubmit} id="survey-form">
                         <label for="name">Luo kysely:</label> <br></br>
@@ -48,12 +58,14 @@ export default function AddSurvey(props) {
                         <input type="submit" value="Luo kysely" />
                     </form>
 
-        
+                     <SurveyList surveys={surveys}/>
                 </Col>
-        
+                
+                
+                
             </Row>
 
         </Container>
     );
-    
+
 }
