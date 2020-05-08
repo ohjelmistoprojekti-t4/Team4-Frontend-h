@@ -15,9 +15,11 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
 .navbar-nav a {
   padding: 1.2rem 1.4rem 1.3rem 1.4rem;
-    color: #24cfbe;
+    color: #12776d;
     /* text-transform: uppercase; */
     font-family: 'lato', sans-serif;
+    font-weight: 400;
+    font-size: 1em;
 }
 
 .navbar-nav a.active {
