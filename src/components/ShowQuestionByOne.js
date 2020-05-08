@@ -64,6 +64,7 @@ export default function ShowQuestionsByOne(props) {
                                 btnLabel={btnLabel} 
                                 link={questionsArr[index]._links.self.href} 
                                 type={questionsArr[index].type}
+                                questionId={questionsArr[index].id} 
                                 questionString={questionsArr[index].question}  
                                 parentCallback = {callbackFunction} />
                         

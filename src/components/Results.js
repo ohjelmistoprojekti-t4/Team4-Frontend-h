@@ -17,19 +17,29 @@ export default function Results() {
         .then(data => setUserAnswers(data))
     }
 
-    
+  
     const listing = [];
+    console.log("data: ", userAnswers);
+    console.log("listing: ", listing); 
 
+    let oneAnswer;
+    let allQuestions = 0;
+    let similarQuestions = 0;
     const groupAnswers = () => {
         for (let i=0; i < userAnswers.length; i++) {
-
+            allQuestions++;
+            userAnswers[i].textAnswer ? oneAnswer = userAnswers[i].textAnswer : oneAnswer = userAnswers[i].refOptionString;
             if (!(userAnswers[i].refQuestionString in listing)) {
+                similarQuestions++;
                 listing[userAnswers[i].refQuestionString] = [];
             }
-            listing[userAnswers[i].refQuestionString].push(userAnswers[i].textAnswer);
+               listing[userAnswers[i].refQuestionString].push(oneAnswer);
         }
     }
     groupAnswers();
+    console.log("listing[4]:", listing[4]); 
+    console.log("All questions: ", allQuestions); 
+    console.log("Similar questions: ", similarQuestions);
 
     return (
         <>
