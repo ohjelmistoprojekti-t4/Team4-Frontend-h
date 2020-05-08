@@ -52,9 +52,9 @@ export default function Questions() {
         <Container fluid={"xl"} className="BodyContainer">
 
             <Row>
-                <Col lg={10}>
+                <Col className="col-xs-12 col-xl-8">
                     
-                    <h1 className="main-h1">Kysymykset</h1>
+                    <h1 className="main-h1">Kyselyn nimi</h1>
                         <ShowQuestionsByOne questions={questions} />
      
                 </Col>

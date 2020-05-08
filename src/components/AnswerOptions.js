@@ -1,6 +1,7 @@
 import React from 'react'
 import {useState, useEffect} from 'react'
-
+import Radio from './form-elements/Radio';
+import Checkbox from './form-elements/Checkbox';
 
 const AnswerOptions = (props) => {
 
@@ -101,38 +102,37 @@ const AnswerOptions = (props) => {
     //    sendData("hep: options");
         return(
           <>
-            <ul>
+            <ul className="options-container">
               {optionsArr.map( (item,i) => <li key={i}>
-              <input type="radio" id={item._links.self.href} name="fieldSet1"
-                value={item._links.self.href} onChange={handleRadioChange}/>
-              <label htmlFor={item._links.self.href}>{item.option}</label>
+              <Radio name="radios" label={item.option} value={item._links.self.href} onChange={handleRadioChange} />
               </li> )}
             </ul>
-            <button onClick={sendAndNextQuestion} className="btnClass">{props.btnLabel}</button>
+            <button onClick={sendAndNextQuestion} className="btnSubmitQuestion">{props.btnLabel}</button>
             </>
         )
       case 2:
     //    sendData("hep: checkboxes");
         return(
           <>
-            <ul>
+            <ul className="options-container">
               {optionsArr.map( (item,i) => <li key={i}>
-              <input type="checkbox" id={item._links.self.href} name={item.option}
-                value={item._links.self.href} onChange={handleCheckboxChange}/>
-              <label htmlFor={item._links.self.href}>{item.option}</label>
+              <Checkbox label={item.option} name={item.option} value={item._links.self.href} onChange={handleCheckboxChange} />
               </li>)}
             </ul>
-            <button onClick={sendAndNextQuestion} className="btnClass">{props.btnLabel}</button>
+            <button onClick={sendAndNextQuestion} className="btnSubmitQuestion">{props.btnLabel}</button>
             </>
         )
       default:
       //  sendData("hep: input: " + userAnswer);
         return (
-        <div>
-        <input type="text" name="textAnswer"  id="input1" data-question={props.link}
-          value={props.value} onChange={handleInputChange}></input>
-        <button onClick={sendAndNextQuestion} className="btnClass">{props.btnLabel}</button>
+        <> 
+        <div className="options-container">
+        <i class="fa fa-pencil-square icon"></i>
+        <input type="text" name="textAnswer" id="input1" data-question={props.link}
+          value={props.value} onChange={handleInputChange} autoFocus placeholder="Vastaus..." className="answerInput"></input>
         </div>
+        <button onClick={sendAndNextQuestion} className="btnSubmitQuestion">{props.btnLabel}</button>
+        </>
         )
       }
   }
@@ -141,7 +141,7 @@ const AnswerOptions = (props) => {
     return(
         <>
             {renderOptions(props.type)}
-                
+                       
             
 
             
