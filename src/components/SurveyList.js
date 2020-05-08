@@ -49,7 +49,7 @@ export default function SurveyList(props) {
         <ul className="survey-li">
           {listSurveys.map( (item,i) => <li key={i} className="survey-li">{item.name}
           <input class="btn btn-primary" name={item.name} id={item._links.self.href} type="button" value="Edit" 
-         {/* onClick={renderEdit} */}/>
+         />
 
           <input class="btn btn-primary" id={item._links.self.href} type="button" value="Delete" onClick={deleteSurvey} />
           </li> )}
