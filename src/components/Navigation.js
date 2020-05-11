@@ -28,6 +28,7 @@ export default function Navigation() {
                     <NavLink to="/results" activeClassName="active">Tulokset</NavLink>
                     <NavLink to="/addsurvey" activeClassName="active">Lisää uusi kysely</NavLink>
                     <NavLink to="/addquestion" activeClassName="active">Lisää kyselyyn kysymyksiä</NavLink>
+                    <NavLink to="/editquestion" activeClassName="active">Muokkaa kyselyä</NavLink>
                 </Nav>
                 <Nav>
                     <Button variant="outline-primary" onClick={signInOut}>{signedLabel}</Button>

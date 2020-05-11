@@ -6,6 +6,7 @@ import Questions from './components/Questions';
 import Results from './components/Results';
 import AddQuestion from './components/AddQuestion';
 import AddSurvey from './components/AddSurvey';
+import EditQuestion from './components/EditQuestion';
 import './App.css';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/results" component={Results} />
           <Route path="/addquestion" component={AddQuestion} />
           <Route path="/addsurvey" component={AddSurvey} />
+          <Route path="/editquestion" component={EditQuestion} />
           <Redirect from="/" to="/start"/>
                 
         </Switch>
