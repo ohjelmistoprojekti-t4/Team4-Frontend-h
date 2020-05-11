@@ -21,7 +21,8 @@ const handleInputChange = (event) => {
     'refAnswerQuestion':props.link,
     'type':props.type,
     'refQuestionString':props.questionString,
-    'refQuestionId':props.questionId
+    'refQuestionId':props.questionId,
+    'refAnswerAnswerSet': 'https://team4back.herokuapp.com/api/answerSets/' + props.answerSetId
   }]);
 }
 const handleRadioChange = (optionStr, event) => {
@@ -31,7 +32,9 @@ const handleRadioChange = (optionStr, event) => {
     'refOptionString': optionStr,
     'type':props.type,
     'refQuestionString':props.questionString,
-    'refQuestionId':props.questionId
+    'refQuestionId':props.questionId,
+    'refAnswerAnswerSet': 'https://team4back.herokuapp.com/api/answerSets/' + props.answerSetId
+
   }]);
 }
 const handleCheckboxChange = (optionStr, event) => {
@@ -49,7 +52,7 @@ fetch('https://team4back.herokuapp.com/api/userAnswers', {
 .catch(err => console.log(err))
 };
 
-const checkAndSend = (answerBodytoCheck) => {
+const checkAndSend = () => {
  // console.log("text empty: ", (answerBodytoCheck.textAnswer === true);
  // console.log("option empty: ", !answerBodytoCheck.refOptionString);
  // !answerBodytoCheck.textAnswer && !answerBodytoCheck.refOptionString ? console.log("Empty") : console.log("Filled");
@@ -62,12 +65,13 @@ const sendAndNextQuestion = () => {
       if (checkboxes[checkbox][1] === true) {
 
           answerBody.push({
-          'refAnswerOption':checkbox,
+          'refAnswerOption': checkbox,
           'refOptionString': checkboxes[checkbox][0],
-          'refAnswerQuestion':props.link,
+          'refAnswerQuestion': props.link,
           'type':props.type,
-          'refQuestionString':props.questionString,
-          'refQuestionId':props.questionId
+          'refQuestionString': props.questionString,
+          'refQuestionId': props.questionId,
+          'refAnswerAnswerSet': 'https://team4back.herokuapp.com/api/answerSets/' + props.answerSetId
         });
 
       }
@@ -75,7 +79,7 @@ const sendAndNextQuestion = () => {
   }
   console.log("AnswerBdy: ", answerBody);
 
-  answerBody.forEach( checkAndSend );
+  answerBody.forEach( addAnswer );
 
   props.parentCallback();
 }
@@ -104,8 +108,6 @@ let optionsArr = [];
 objectMap(options, function(value) {
   optionsArr.push(value);
 });
-
-
 
 function renderOptions(type) {
 switch(type) {
@@ -138,7 +140,7 @@ switch(type) {
     return (
     <> 
     <div className="options-container">
-    <i class="fa fa-pencil-square icon"></i>
+    <i className="fa fa-pencil-square icon"></i>
     <input type="text" name="textAnswer" id="input1" data-question={props.link}
       value={props.value} onChange={handleInputChange} autoFocus placeholder="Vastaus..." className="answerInput"></input>
     </div>

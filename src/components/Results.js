@@ -5,41 +5,51 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function Results() {
+export default function Results(props) {
 
     const [userAnswers, setUserAnswers] = useState([]);
+    const [title, setTitle] = useState("Kaikki vastaukset kaikkiin kysymyksiin");
+   // const [answerSetIdProp, set]
+  //  const [answersSource, setAnswersSource] = useState('https://team4back.herokuapp.com/getUserAnswers')
 
-    useEffect(() => fetchData(), [])
+    useEffect(() => fetchAnswers(), [])
 
-    const fetchData = () => {
+    const fetchAnswerset = () => {
+        fetch('https://team4back.herokuapp.com/api/answerSets/' +props.location.state.answerSetId+ '/userAnswers')
+        .then(response => response.json())
+        .then(data => setUserAnswers(data._embedded.userAnswers))
+    }
+
+    const fetchAllAnswers = () => {
         fetch('https://team4back.herokuapp.com/getUserAnswers')
         .then(response => response.json())
         .then(data => setUserAnswers(data))
     }
 
-  
+    const fetchAnswers = () => {
+        if (props.location.state) {
+            fetchAnswerset();
+            setTitle("Vastauskerran #" +props.location.state.answerSetId+ " vastaukset" );
+        } else {
+            fetchAllAnswers();
+        }
+    }
     const listing = [];
-    console.log("data: ", userAnswers);
-    console.log("listing: ", listing); 
 
     let oneAnswer;
-    let allQuestions = 0;
-    let similarQuestions = 0;
+
     const groupAnswers = () => {
         for (let i=0; i < userAnswers.length; i++) {
-            allQuestions++;
+            // Käydään läpi kaikki vastausket
             userAnswers[i].textAnswer ? oneAnswer = userAnswers[i].textAnswer : oneAnswer = userAnswers[i].refOptionString;
             if (!(userAnswers[i].refQuestionString in listing)) {
-                similarQuestions++;
+                // Ryhmitellään vastaukset saman kysymyksen mukaan
                 listing[userAnswers[i].refQuestionString] = [];
             }
                listing[userAnswers[i].refQuestionString].push(oneAnswer);
         }
     }
     groupAnswers();
-    console.log("listing[4]:", listing[4]); 
-    console.log("All questions: ", allQuestions); 
-    console.log("Similar questions: ", similarQuestions);
 
     return (
         <>
@@ -48,7 +58,7 @@ export default function Results() {
 
             <Row>
                 <Col md={12}>
-                <h1 className="main-h1">Tulokset</h1>
+                <h1 className="main-h1">{title}</h1>
 
                 <h3>Vastaukset kysymyksen mukaan ryhmiteltyinä</h3>
                 

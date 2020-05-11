@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AnswerOptions from './AnswerOptions';
+import Spinner from 'react-bootstrap/Spinner';
 import ProgressBar from './form-elements/ProgressBar';
 
 export default function ShowQuestionsByOne(props) {
@@ -19,13 +21,13 @@ export default function ShowQuestionsByOne(props) {
 
     let questionsArr = [];
 
+    // Käydään läpi palvelimelta saatu kysymysobjekti ja tallennetaan kysymykset muuttujaan questionsArr
     objectMap(props.questions, function(value) {
         questionsArr.push(value);
     })
 
-    const callbackFunction = () => {
-        console.log("Index before increment: ", index);
-        
+    // Näytetään seuraava kysymys kun tätä kutsutaan komponentista AnswerOptions
+    const callbackFunction = () => {        
         console.log("Persentage:", statePersentage);
         nextQuestion();
    }
@@ -33,6 +35,8 @@ export default function ShowQuestionsByOne(props) {
     let newIndex;
     const nextQuestion = () => {
         
+            // Tarkistetaan onko kysymys viimeinen tai toiseksi viimeinen
+
             if ((index + 1) === questionsArr.length) {
                 setLastQuestion(true);
                 console.log("now is last increment");
@@ -45,13 +49,14 @@ export default function ShowQuestionsByOne(props) {
                 newIndex = index + 1;
                 setIndex(newIndex);
             }
-    
-
     }
     
+    console.log("Props from question.one.by.one: ", props);
 
     const Question = () => {
         
+        // Kysymysten latauduttua näytetään spinnerin sijaan ensimmäinen kysymys
+
         if (questionsArr[index] && questionsArr[index]._links) {
             setStatePersentage( 100* (index + 1) / questionsArr.length);
             return (
@@ -59,44 +64,55 @@ export default function ShowQuestionsByOne(props) {
                     <ProgressBar percentage={statePersentage} />
                     <div className="question-count">{index + 1}/{questionsArr.length}</div>
                     <div className="question-card"><h5 className="question-heading">{questionsArr[index].question}</h5>
-                        
                             <AnswerOptions
                                 btnLabel={btnLabel} 
                                 link={questionsArr[index]._links.self.href} 
                                 type={questionsArr[index].type}
                                 questionId={questionsArr[index].id} 
                                 questionString={questionsArr[index].question}  
+                                answerSetId={props.answerSetId}
                                 parentCallback = {callbackFunction} />
-                        
                     </div>
                 </div>
             )
         } else {
             return (
-                <div className="qusestion-container">
-                    <h5 className="question-heading">Ladataan kysymystä...</h5>
+                <div className="question-container">
+                    <br />
+                      <Spinner animation="border" variant="info" />
+                    <br />
                 </div>
             )
         }
     }
     
+    // Näytetään kysymyksiä niin kauan, kun niin on
     if (!lastQuestion) {
         return(
             <>
             <Question />
             </>
         )
+    // Kun viimeiseen kysymykseen on vastattu, näytetään linkki tämän vastauskerran vastauksiin    
     } else {
         return (
             <div className="question-container" id="showSingle">
             
-            <div className="question-card"><h5 className="question-heading">Siinä se!</h5>
+                <div className="question-card"><h5 className="question-heading">Siinä se!</h5>
                 
-            <p>Ei muuta kysyttävää, kiitos.</p>
+                <p>Ei muuta kysyttävää, kiitos.</p>
+               
+                <Link to={{
+                    pathname: '/results',
+                    state: {
+                        answerSetId: props.answerSetId
+                    }
+                    }}>Katso vastauksesi</Link>
+        
+                
+                </div>
                 
             </div>
-        </div>
-            
         )
     }
 

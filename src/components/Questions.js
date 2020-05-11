@@ -1,67 +1,30 @@
 import React from 'react';
 import {useState, useEffect} from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import ListOfQuestions from './ListOfQuestions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ShowQuestionsByOne from './ShowQuestionByOne';
 
-export default function Questions() {
+export default function Questions(props) {
+
+    // Haetaan kaikki propseina saadun kyselyn kysymykset
+    // Näytetään komponentti, joka esittelee kysymykset yksitellen
 
     const [questions, setQuestions] = useState([]);
-    const [newAnswer, setNewAnswer] = React.useState({'textAnswer':'','refAnswerQuestion':'' }); 
-
+    
     useEffect(() => fetchData(), [])
-    useEffect(() => {
-        if (newAnswer.refAnswerQuestion !== "") {
-        addAnswer(newAnswer);
-        console.log(newAnswer);
-        }
-    });
 
     const fetchData = () => {
-        fetch('https://team4back.herokuapp.com/api/questions')
+        fetch(props.surveyLink + '/questions')
         .then(response => response.json())
         .then(data => setQuestions(data._embedded.questions))
     }
-
-    const addAnswer= (answer) => {
-        fetch('https://team4back.herokuapp.com/api/userAnswers', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(answer)
-        })
-        .catch(err => console.log(err))
-      };
-
-      
-/*     const handleSubmit = (event) => {
-        event.preventDefault();
-        let form = new FormData(document.getElementById("questions-form"));
-        for (var key of form.keys()) {
-            console.log("Key: ", form.get(key));
-            setNewAnswer({'textAnswer' : form.get(key),'refAnswerQuestion' : key });
-        }
-        console.log(newAnswer);
-    } */
+   
+    console.log("Survey link: ", props.surveyLink);
+    console.log("AnswerSet: ", props.currentAnswerSet);
 
     return (
         
-        <Container fluid={"xl"} className="BodyContainer">
-
-            <Row>
-                <Col className="col-xs-12 col-xl-8">
-                    
-                    <h1 className="main-h1">Kyselyn nimi</h1>
-                        <ShowQuestionsByOne questions={questions} />
-     
-                </Col>
-        
-            </Row>
-
-        </Container>
+        <ShowQuestionsByOne questions={questions} answerSetId={props.currentAnswerSet} />
         
       );
 
