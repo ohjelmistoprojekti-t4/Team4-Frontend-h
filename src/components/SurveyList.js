@@ -1,13 +1,15 @@
 import React from 'react';
+import {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { render } from '@testing-library/react';
-import { Container, Row, Col } from 'react-bootstrap';
 import SurveyEdit from './SurveyEdit';
 
-export default function SurveyList(props) {
+const SurveyList = (props) => {
+  const [show, setShow] = useState(false);
+  const [buttonColor, setButtonColor] = useState(false);
+  let listSurveys = [];
 
-  function deleteSurvey(event){
-    event.preventDefault()
+  const deleteSurvey = (event) => {
+    
     console.log("id", event.target.id)
       if(window.confirm('Haluatko varmasti poistaa tämän kyselyn?')){
   
@@ -17,20 +19,11 @@ export default function SurveyList(props) {
             'Content-Type': 'application/json'
         }
       }) 
-      }
+      .then(res => res.json())
       window.location.reload(false);
     }
-    const renderEdit = (event) => {
-      render ( 
-        <Container fluid={"xl"} className="BodyContainer">
-          <Row>
-            <Col lg={10}>
-              <SurveyEdit id={event.target.id} name={event.target.name} />  
-            </Col>
-          </Row>
-        </Container>
-    )
-  }
+    }
+    
 
     function objectMap(object, mapFn) {
         return Object.keys(object).reduce(function(result, key) {
@@ -38,22 +31,34 @@ export default function SurveyList(props) {
           return result
         }, {})
     }
-    let listSurveys = [];
+    
 
     objectMap(props.surveys, function(value) {
         listSurveys.push(value);
     })
     console.log("surveys", listSurveys);
   
-    return(
+    const [uniqueEdit, setUniqueEdit] = useState({});
+    function ShowAndUnique(event){
+      setShow(!show)
+      setUniqueEdit(event.target.id)
+      setButtonColor(!buttonColor)
+    }
+
+    return( 
+      <>
         <ul className="survey-li">
           {listSurveys.map( (item,i) => <li key={i} className="survey-li">{item.name}
-          <input class="btn btn-primary" name={item.name} id={item._links.self.href} type="button" value="Edit" 
-         />
+          <button variant="link" className={buttonColor==true && item._links.self.href===uniqueEdit ? "btn btn-warning" : "btn btn-primary"} name={item.name} id={item._links.self.href} value="Edit"
+           onClick={ShowAndUnique}>Muokkaa</button>
 
-          <input class="btn btn-primary" id={item._links.self.href} type="button" value="Delete" onClick={deleteSurvey} />
+          <input variant="link" className="btn btn-danger" id={item._links.self.href} type="button" value="Poista" onClick={deleteSurvey} />
+          {item._links.self.href===uniqueEdit ? (show && <SurveyEdit id={item._links.self.href} name={item.name} />):(null)}
           </li> )}
-        </ul>
+        </ul> 
+        
+        </>
       )
-
+    
 }
+export default SurveyList

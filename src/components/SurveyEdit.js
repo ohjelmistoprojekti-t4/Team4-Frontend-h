@@ -1,38 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useState} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button } from 'react-bootstrap';
 
-export default function SurveyEdit(props) {
+const SurveyEdit = (props) => {
+  const [editName, setEditName] = useState({name: ''});
+  const [show, setShow] = useState(false);
 
-    const [editName, setEditName] = useState({name: ''});
-  
-        const handleChange = (event) => {
-            setEditName({...editName, [event.target.name]: event.target.value})
-            console.log(editName)
-          }
-  
-        function editSurvey(event){
-          event.preventDefault()
-          console.log("id", props.id)
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-          fetch(props.id, {
-              method: 'PUT',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(editName)
-          }) 
-          console.log("Survey", editName)
-          window.location.reload(false);
-          }
-  
-        return(
-          <form onSubmit={editSurvey} id="edit-survey-rename">
-          <label for="name">Nimeä {props.name} uudelleen </label> <br></br>
-          <input type="text" id="1" name="name" value={editName.name} onChange={handleChange} />
-          
-  
-          <input type="submit" class="btn btn-primary" value="OK" />
-      </form>
-        )
+
+  const handleEdit = (event) => {
+      setEditName({...editName, [event.target.name]: event.target.value})
+      console.log(editName)
     }
+
+  function editSurvey(){
+    
+    console.log("id", props.id)
+
+    fetch(props.id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(editName)
+    }) 
+    
+    console.log("Survey", editName)
+    window.location.reload(false);
+    }
+
+
+    return <> 
+    <div id="edit-survey-rename">
+    <label for="name">Nimeä {props.name} uudelleen </label> <br></br>
+    <input type="text" id={props.id} name="name" value={editName.name} onChange={handleEdit} />
+ 
+    <Button className="btn btn-success" value="OK" onClick={editSurvey}>OK</Button>
+    </div>
+    </>
+  }
+
+
+export default SurveyEdit
