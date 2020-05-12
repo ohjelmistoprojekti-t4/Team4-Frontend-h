@@ -5,17 +5,13 @@ import Checkbox from './form-elements/Checkbox';
 
 const AnswerOptions = (props) => {
 const [options, setOptions] = useState([]);
-const [userTxt, setUserTxt] = useState(""); 
-const [radioItem, setRadioItem] = useState("");
 const [checkboxes, setCheckboxes] = useState({});
 const [answerBody, setAnswerBody] = useState([]);
-
-// const [btnLabel, setBtnLabel] = useState("Seuraava kysymys");
 
 useEffect(() => fetchData(), []);  
 
 const handleInputChange = (event) => {
-  setUserTxt(event.target.value);
+
   setAnswerBody([{
     'textAnswer':event.target.value,
     'refAnswerQuestion':props.link,
@@ -34,7 +30,6 @@ const handleRadioChange = (optionStr, event) => {
     'refQuestionString':props.questionString,
     'refQuestionId':props.questionId,
     'refAnswerAnswerSet': 'https://team4back.herokuapp.com/api/answerSets/' + props.answerSetId
-
   }]);
 }
 const handleCheckboxChange = (optionStr, event) => {
@@ -52,12 +47,6 @@ fetch('https://team4back.herokuapp.com/api/userAnswers', {
 .catch(err => console.log(err))
 };
 
-const checkAndSend = () => {
- // console.log("text empty: ", (answerBodytoCheck.textAnswer === true);
- // console.log("option empty: ", !answerBodytoCheck.refOptionString);
- // !answerBodytoCheck.textAnswer && !answerBodytoCheck.refOptionString ? console.log("Empty") : console.log("Filled");
-  addAnswer(answerBody);
-}
 const sendAndNextQuestion = () => {
 
   if (props.type === 2) {
@@ -73,22 +62,13 @@ const sendAndNextQuestion = () => {
           'refQuestionId': props.questionId,
           'refAnswerAnswerSet': 'https://team4back.herokuapp.com/api/answerSets/' + props.answerSetId
         });
-
       }
     }
   }
   console.log("AnswerBdy: ", answerBody);
-
   answerBody.forEach( addAnswer );
-
   props.parentCallback();
 }
-
-
-// const sendData = (data) => {
-//   props.parentCallback(data);
-// }
-
 
 const fetchData = () => {
   fetch(props.link + '/options')
@@ -97,10 +77,10 @@ const fetchData = () => {
 }
 
 function objectMap(object, mapFn) {
-return Object.keys(object).reduce(function(result, key) {
-  result[key] = mapFn(object[key])
-  return result
-}, {})
+  return Object.keys(object).reduce(function(result, key) {
+    result[key] = mapFn(object[key])
+    return result
+  }, {})
 }
 
 let optionsArr = [];
@@ -112,7 +92,6 @@ objectMap(options, function(value) {
 function renderOptions(type) {
 switch(type) {
   case 1:
-//    sendData("hep: options");
     return(
       <>
         <ul className="options-container">
@@ -124,7 +103,6 @@ switch(type) {
         </>
     )
   case 2:
-//    sendData("hep: checkboxes");
     return(
       <>
         <ul className="options-container">
@@ -136,12 +114,11 @@ switch(type) {
         </>
     )
   default:
-  //  sendData("hep: input: " + userAnswer);
     return (
     <> 
     <div className="options-container">
     <i className="fa fa-pencil-square icon"></i>
-    <input type="text" name="textAnswer" id="input1" data-question={props.link}
+    <input type="text" name="textAnswer" id="input1" data-question={props.link} autocomplete="off"
       value={props.value} onChange={handleInputChange} autoFocus placeholder="Vastaus..." className="answerInput"></input>
     </div>
     <button onClick={sendAndNextQuestion} className="btnSubmitQuestion">{props.btnLabel}</button>
@@ -150,17 +127,12 @@ switch(type) {
   }
 }
 
-
 return(
     <>
         {renderOptions(props.type)}
-                    
-        
 
-        
     </>
   )
-
 
 }
 export default AnswerOptions

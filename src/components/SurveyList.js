@@ -48,12 +48,14 @@ const SurveyList = (props) => {
     return( 
       <>
         <ul className="survey-li">
-          {listSurveys.map( (item,i) => <li key={i} className="survey-li">{item.name}
-          <button variant="link" className={buttonColor==true && item._links.self.href===uniqueEdit ? "btn btn-warning" : "btn btn-primary"} name={item.name} id={item._links.self.href} value="Edit"
-           onClick={ShowAndUnique}>Muokkaa</button>
+          {listSurveys.map( (item,i) => <li key={i} className="survey-li"><div className="surveyName">{item.name}</div>
+          <div className="surveyListControls">
+              <button variant="link" className={buttonColor==true && item._links.self.href===uniqueEdit ? "btn btn-warning" : "btn btn-primary"} name={item.name} id={item._links.self.href} value="Edit"
+              onClick={ShowAndUnique}>Muokkaa</button>
 
-          <input variant="link" className="btn btn-danger" id={item._links.self.href} type="button" value="Poista" onClick={deleteSurvey} />
-          {item._links.self.href===uniqueEdit ? (show && <SurveyEdit id={item._links.self.href} name={item.name} />):(null)}
+              <input variant="link" className="btn btn-danger" id={item._links.self.href} type="button" value="Poista" onClick={deleteSurvey} />
+              {item._links.self.href===uniqueEdit ? (show && <SurveyEdit id={item._links.self.href} name={item.name} />):(null)}
+          </div>
           </li> )}
         </ul> 
         

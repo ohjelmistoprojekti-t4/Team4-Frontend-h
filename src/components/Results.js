@@ -9,8 +9,6 @@ export default function Results(props) {
 
     const [userAnswers, setUserAnswers] = useState([]);
     const [title, setTitle] = useState("Kaikki vastaukset kaikkiin kysymyksiin");
-   // const [answerSetIdProp, set]
-  //  const [answersSource, setAnswersSource] = useState('https://team4back.herokuapp.com/getUserAnswers')
 
     useEffect(() => fetchAnswers(), [])
 
@@ -34,8 +32,8 @@ export default function Results(props) {
             fetchAllAnswers();
         }
     }
+    
     const listing = [];
-
     let oneAnswer;
 
     const groupAnswers = () => {
