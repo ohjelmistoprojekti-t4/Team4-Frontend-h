@@ -35,15 +35,11 @@ export default function Results(props) {
 
     const groupedAnswers = [{
         'inputAnswers' : {
-                     /*    'question1' : [{'answer': '', 'answerId':'', 'isInSet':''}],
-                
-                        'question2' : [{'answer': '', 'answerId':'', 'isInSet':''}] */
+               
                         }
                 },{
         'optionAnswers' : {
-/*                         'question1' : [{'answer': '', 'answerId':'', 'isInSet':''}],
-                        'question' : [{'optionLabel': 'A', 'optionCount': 1, 'answerId': 1, 'isInSet': 'false'},
-                                      {'optionLabel': 'A', 'optionCount': 1, 'answerId': 1, 'isInSet': 'false'}]   */  
+
                         }     
         }
     ]            
@@ -98,28 +94,6 @@ export default function Results(props) {
     console.log("Grouped answers arr: ", groupedAnswers);
     console.log("count by id: ", answerOptionsCount);
 
-
-/*     const test = () => {
-            Object.keys(groupedAnswers[0]['inputAnswers']).map(key => { 
-                console.log("Kys: ", key);
-                groupedAnswers[0]['inputAnswers'][key].map( (answer) => console.log("Answer: ", answer.answer) ) 
-                }
-            )
-
-            Object.keys(groupedAnswers[1]['optionAnswers']).map(key => { 
-                console.log("Kys opt: ", key);
-                Object.keys(groupedAnswers[1]['optionAnswers'][key]).map( i =>  {
-                    console.log("--key: ", i);
-                    console.log("-----i label: ", groupedAnswers[1]['optionAnswers'][key][i].label );
-                    console.log("-----i count: ", groupedAnswers[1]['optionAnswers'][key][i].count );
-                    }
-                    );
-                }
-            )
-
-    }
- test(); */
- // style={{marginRight: spacing + 'em'}} 
     return (
         <>
     
