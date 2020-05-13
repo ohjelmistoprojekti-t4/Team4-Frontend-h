@@ -47,7 +47,9 @@ export default function Results(props) {
                         }     
         }
     ]            
-        
+
+    console.log(userAnswers);
+    const answerOptionsCount = {};
     const groupAnswers = () => {
         for (let i=0; i < userAnswers.length; i++) {
             // Jos vastauksessa on input-kentästä tullut tekstivastaus
@@ -67,14 +69,17 @@ export default function Results(props) {
                 // Jos kysymystä ei ole valmiiksi objektissa
                 if (!(userAnswers[i].refQuestionString in groupedAnswers[1]['optionAnswers'])) {
                     // Luodaan uusi kysymystietue
-                    groupedAnswers[1]['optionAnswers'][userAnswers[i].refQuestionString] = [];                               
+                    groupedAnswers[1]['optionAnswers'][userAnswers[i].refQuestionString] = [];
+                    answerOptionsCount[userAnswers[i].refQuestionId] = 0;                               
                 }
 
                 // Tarkistetaan, onko vaihtoehtovastauksen laskuria jo lisätty
                 if (!(userAnswers[i].refOptionString in groupedAnswers[1]['optionAnswers'][userAnswers[i].refQuestionString])) {
-                    // Lisätään vaihtoehtovastaus ja asetetaan laskurin arvoksi 0
+                    // Lisätään vaihtoehtovastaus ja asetetaan vaihtoehdon vastausten laskurin arvoksi 1 ja kasvatetaan kaikkien vaihtoehtojen määrää
+                    answerOptionsCount[userAnswers[i].refQuestionId]++;
                     groupedAnswers[1]['optionAnswers'][userAnswers[i].refQuestionString][userAnswers[i].refOptionString] = {
-                                                                                                     'label' : userAnswers[i].refOptionString,   
+                                                                                                     'label' : userAnswers[i].refOptionString,
+                                                                                                     'questionId' : userAnswers[i].refQuestionId,   
                                                                                                      'count' : 1,
                                                                                                      'refAnswerSetId' :  userAnswers[i].refAnswerSetId,
                                                                                                      'belongsToSet' : false
@@ -83,6 +88,7 @@ export default function Results(props) {
                         
                 } else {
                     groupedAnswers[1]['optionAnswers'][userAnswers[i].refQuestionString][userAnswers[i].refOptionString].count++;
+                    answerOptionsCount[userAnswers[i].refQuestionId]++;
                 }
             }
         }   
@@ -90,6 +96,7 @@ export default function Results(props) {
     groupAnswers();
 
     console.log("Grouped answers arr: ", groupedAnswers);
+    console.log("count by id: ", answerOptionsCount);
 
 
 /*     const test = () => {
@@ -112,7 +119,7 @@ export default function Results(props) {
 
     }
  test(); */
-
+ // style={{marginRight: spacing + 'em'}} 
     return (
         <>
     
@@ -136,10 +143,25 @@ export default function Results(props) {
                 {Object.keys(groupedAnswers[1]['optionAnswers']).map(key => 
                 <div className="result-div">
                 <h6>{key}</h6>
-                <ul className="single-answer-ul">
+                <ul className="single-answer-ul-charts">
                     {Object.keys(groupedAnswers[1]['optionAnswers'][key]).map( i =>  
                         
-                        <li>{groupedAnswers[1]['optionAnswers'][key][i].label} / {groupedAnswers[1]['optionAnswers'][key][i].count}</li> )
+                        <li style={{ background: `linear-gradient(to right, rgb(187, 186, 220) ${(groupedAnswers[1]['optionAnswers'][key][i].count / 
+                        answerOptionsCount[groupedAnswers[1]['optionAnswers'][key][i].questionId]*100)}%, rgb(226, 245, 242) 0%)`}}>
+
+                        {/*  <span className="results-option-persentage" style={{width: 
+                            (groupedAnswers[1]['optionAnswers'][key][i].count / 
+                             answerOptionsCount[groupedAnswers[1]['optionAnswers'][key][i].questionId])
+                             * 100 + '%'}} >
+                        </span>  */}
+                        <span className="results-option-label">
+                        {groupedAnswers[1]['optionAnswers'][key][i].label}
+                            <span className="results-option-details">
+                                    ({groupedAnswers[1]['optionAnswers'][key][i].count} kpl)
+                            </span>
+                        </span>
+                    
+                        </li> )
                         
                     }
                 </ul></div>   

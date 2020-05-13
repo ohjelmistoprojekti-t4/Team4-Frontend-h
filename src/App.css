@@ -177,9 +177,21 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   font-size: 1.2em;
 }
 
+.result-div-charts h6 {
+  padding: 1em 1.2em;
+  margin: 0;
+  display: block;
+  font-size: 1.2em;
+}
+
 .single-answer-ul {
   background-color: #fff;
   border-top: 1px solid #e6e6e6;
+  padding: 0;
+  max-width: 30em;
+}
+.single-answer-ul-charts {
+  background-color: #fff;
   padding: 0;
   max-width: 30em;
 }
@@ -190,6 +202,16 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   padding: 1em 3em;
   margin: 0.2em 0;
   font-size: 1.2em;
+  position: relative;
+}
+
+.single-answer-ul-charts li {
+  background: #fdfdfd;
+  list-style: none;
+  padding: 1em 3em;
+  margin: 0.2em 0;
+  font-size: 1.2em;
+  position: relative;
 }
 .single-answer-list-ul li {
   background: #f1f1f1;
@@ -203,6 +225,28 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 .single-answer-ul li:nth-child(2) {
   background: #fdfdfd;
 }
+
+.results-option-persentage {
+  background: #7aa3cc;
+    display: block;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.results-option-label {
+  z-index: 100;
+  font-size: 1.1em;
+}
+
+.results-option-details {
+  font-style: italic;
+  color: gray;
+  padding-left: 0.3em;
+}
+
+
 
 /******* Add Question *******/
 
