@@ -1,40 +1,42 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Container, Row, Col, Form, Button, InputGroup, Alert } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button, InputGroup, Alert, FormControl, FormLabel } from 'react-bootstrap'
 import Select from 'react-select'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function AddQuestion(props) {
 
-    const [question, setQuestion] = React.useState("")
-    const [questionType, setQuestionType] = React.useState();
-    const [selectedSurvey, setSelectedSurvey] = useState({ value: '', label: 'Valitse'});
+    const [question, setQuestion] = React.useState('')
+    const [questionType, setQuestionType] = React.useState()
+    const [selectedSurvey, setSelectedSurvey] = useState({ value: '', label: 'Valitse kysely...'})
     const [surveys, setSurveys] = useState([])
     const [newQuestionOptions, setNewQuestionOptions] = React.useState([{ id: 0, option: '' }])
     const [notification, setNotification] = useState(false)
+    const [validated, setValidated] = useState(false)
+    const [idCounter, setIdCounter] = React.useState(1)
 
     const surveyOptions = []
     
     useEffect(() => fetchData(), [])
 
     useEffect(() => {
-        if (surveys !== "") {
-            console.log("surveys", surveys)
+        if (surveys !== '') {
+            console.log('surveys', surveys)
             surveys.map(survey => surveyOptions.push({ 
                 label: survey.name, 
                 value: survey._links.self.href,
                 id: survey.id
             }))
         }
-    });
+    })
 
     const handleQuestionChange = (event) => {
         setQuestion({...question, [event.target.name]: event.target.value})
-        console.log("lomake", question)
+        console.log('lomake', question)
     }
 
     const handleSelectedSurveyChange = (event) => {
-        console.log("event", event)
+        console.log('event', event)
         setSelectedSurvey(event)
     }
 
@@ -50,51 +52,62 @@ export default function AddQuestion(props) {
     }
 
     const handleSubmit = async (event) => {
-        event.preventDefault()
-        console.log("question", question)
-        let questionBody = {}
+        try {
+            event.preventDefault()
 
-        if (questionType === 1 || questionType === 2) {
+            const form = event.currentTarget
+            if (form.checkValidity() === false) {
+                event.stopPropagation()
+            }
+            setValidated(true)
 
-            const optionsList = newQuestionOptions.filter(item => item.option.length > 0)
+            console.log('question', question)
+            let questionBody = {}
 
-            questionBody = { 
-                "question": question.question, 
-                "type": questionType, 
-                "surveyId" : selectedSurvey.id, 
-                "options": optionsList
+            if (questionType === 1 || questionType === 2) {
+
+                const optionsList = newQuestionOptions.filter(item => item.option.length > 0)
+
+                questionBody = { 
+                    'question': question.question, 
+                    'type': questionType, 
+                    'surveyId' : selectedSurvey.id, 
+                    'options': optionsList
+                }
+                
+                console.log('question body', questionBody)
+
+            } else {
+                questionBody = { 
+                    'question': question.question, 
+                    'type': questionType, 
+                    'surveyId' : selectedSurvey.id 
+                }
+                console.log('question body', questionBody)
+            }
+    
+            if (!selectedSurvey) {
+                alert('Ennen kysymyksen tallentamista pitää valita kysely!')
+                return;
             }
             
-            console.log("question body", questionBody)
+            if (form.checkValidity() === true) {
+                const response = await fetch('https://team4back.herokuapp.com/addQuestion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(questionBody)
+                })
 
-        } else {
-            questionBody = { 
-                "question": question.question, 
-                "type": questionType, 
-                "surveyId" : selectedSurvey.id 
+                const data = await response
+                setQuestion({...question, 'question':''})
+                setNewQuestionOptions([{ id: 0, option: '' }])
+                setNotification(true)
+                setValidated(false)
+                console.log(data)
             }
-            console.log("question body", questionBody)
-        }
- 
-        if (!selectedSurvey) {
-            alert("Ennen kysymyksen tallentamista pitää valita kysely!")
-            return;
-        }
-        
-        const response = await fetch('http://team4back.herokuapp.com/addQuestion', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(questionBody)
-        })
 
-        try {
-            const data = await response
-            setQuestion({...question, 'question':''})
-            setNewQuestionOptions([{ id: 0, option: '' }])
-            setNotification(true)
-            return console.log(data)
         } catch (err) {
             throw err
         }
@@ -112,7 +125,8 @@ export default function AddQuestion(props) {
 
     const addNewOption = e => {
         e.preventDefault()
-        setNewQuestionOptions([ ...newQuestionOptions, { id: Math.floor(Math.random() * 10000), option: '' } ])
+        setNewQuestionOptions([ ...newQuestionOptions, { id: idCounter, option: '' } ])
+        setIdCounter(idCounter+1)
     }
 
     const removeNewOption = (item, event) => {
@@ -125,16 +139,14 @@ export default function AddQuestion(props) {
 
 
     return  (
-        <Container fluid={"xl"} className="BodyContainer add-question-component">
+        <Container fluid={'xl'} className='BodyContainer add-question-component'>
             <Row>
                 <Col md={8}>
 
-                <h1 className="main-h1">Lisää kysymyksiä</h1>
-
-                <h3>Valitse kysely, johon lisätään uusia kysymyksiä</h3>
+                <h1 className='main-h1'>Lisää kysymyksiä</h1>
                 
                 <Select
-                    className="select-survey"
+                    className='select-survey'
                     value={selectedSurvey}
                     onChange={handleSelectedSurveyChange}
                     options={surveyOptions}
@@ -142,49 +154,45 @@ export default function AddQuestion(props) {
                 />
 
                 {selectedSurvey.value.length > 1 ?
-                    <div className="mb-4">
-                        <h3 className="mt-5 mb-3">Valitse kysymyksen tyyppi</h3>
-                        <button type="button" className="btn btn-info mx-2" onClick={() => setQuestionType(1)}>Radio</button>
-                        <button type="button" className="btn btn-info mx-2" onClick={() => setQuestionType(2)}>Checkbox</button>
-                        <button type="button" className="btn btn-info mx-2" onClick={() => setQuestionType(3)}>Input Field</button>
+                    <div className='mb-4'>
+                        <h3 className='mt-5 mb-3'>Valitse kysymyksen tyyppi</h3>
+                        <Button variant={questionType === 1 ? 'info' : 'outline-info'} className='mx-2' onClick={() => setQuestionType(1)}>Radio</Button>
+                        <Button variant={questionType === 2 ? 'info' : 'outline-info'} className='mx-2' onClick={() => setQuestionType(2)}>Checkbox</Button>
+                        <Button variant={questionType === 3 ? 'info' : 'outline-info'} className='mx-2' onClick={() => setQuestionType(3)}>Input Field</Button>
                     </div>
                 : null }
 
                 { questionType ?
                     <div>
-                        <h3 className="mt-5 mb-3">Lisää uusi kysymys</h3>
+                        <h3 className='mt-5 mb-3'>Lisää uusi kysymys</h3>
                         { notification ?
                             <Alert variant='success' onClose={() => setNotification(false)} dismissible>
                                 Uusi kysymys lisätty
                             </Alert> 
                         : null }
-                        <form className="add-radio-form" onSubmit={handleSubmit}>
-                            <label for="question">Kysymys</label> <br />
-                            <input type="text" className="form-control" id="1" name="question" value={question.question} onChange={handleQuestionChange} />
-                            <br /><br />
+                        <Form noValidate validated={validated} className='add-radio-form' onSubmit={handleSubmit}>
+                            <FormLabel hmtlFor='question'>Kysymys</FormLabel>
+                            <FormControl required type='text' id='1' name='question' value={question.question} onChange={handleQuestionChange} />
 
-                            
                             { questionType !== 3 ? 
                                 <div>
-                                    <label for="question">Vaihtoehdot</label>
+                                    <FormLabel htmlFor='options' className='mt-3'>Vaihtoehdot</FormLabel>
                                     {newQuestionOptions.map(item => 
-                                        <InputGroup className="mb-3">
-                                            <Form.Control type='text' value={item.option} onChange={(e) => handleNewQuestionOptionsChange(item, e)} />
+                                        <InputGroup className='mb-3'>
+                                            <FormControl required type='text' value={item.option} onChange={(e) => handleNewQuestionOptionsChange(item, e)} />
                                             {newQuestionOptions.length > 1 ? 
                                             <InputGroup.Append>
-                                                <Button variant="warning" onClick={(e) => removeNewOption(item, e)}>Poista</Button>
+                                                <Button variant='warning' onClick={(e) => removeNewOption(item, e)}>Poista</Button>
                                             </InputGroup.Append>
                                             : null }
-                                            
                                         </InputGroup>
                                     )}
-                                    <Button variant="outline-info" onClick={addNewOption}>Lisää vaihtoehto</Button>
+                                    <Button variant='outline-info' onClick={addNewOption}>Lisää vaihtoehto</Button>
                                 </div>
 
-                                
                             : null }
-                            <input type="submit" className="btn btn-primary mt-3" value="Lähetä" />
-                        </form>
+                            <Button variant='primary' type='submit' className='mt-3' >Lähetä</Button>
+                        </Form>
                     </div>
                 : null }
 
