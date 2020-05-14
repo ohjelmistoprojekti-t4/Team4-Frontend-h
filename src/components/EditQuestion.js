@@ -1,6 +1,6 @@
 import React from 'react'
 import {useState, useEffect} from 'react'
-import { Container, Row, Col, Table, Modal, Button, Form, Alert } from 'react-bootstrap'
+import { Container, Row, Col, Table, Modal, Button, Form, Alert, FormLabel, FormGroup, FormControl } from 'react-bootstrap'
 import Select from 'react-select'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -12,6 +12,7 @@ export default function EditQuestion(props) {
 
     const [show, setShow] = useState(false)
     const [notification, setNotification] = useState(false)
+    const [validated, setValidated] = useState(false);
     
     const [selectedSurvey, setSelectedSurvey] = useState({ value: '', label: 'Valitse kysely...'})
     const [surveys, setSurveys] = useState([])
@@ -79,55 +80,66 @@ export default function EditQuestion(props) {
     }
 
     const handleSubmitEdit = async (event) => {
-        event.preventDefault()
+        try {
+            event.preventDefault()
+
+            const form = event.currentTarget
+            if (form.checkValidity() === false) {
+                event.stopPropagation()
+            }
+            setValidated(true)
+
         let questionBody = {}
            
         questionBody = { 
+            'id': editableQuestion.id,
             'question': editableQuestion.question, 
             'type': editableQuestion.type,
-            'survey': { 
-                'id': selectedSurvey.id, 
-                'name': selectedSurvey.name 
-            }
+            'options': editableQuestionOptions
         }
 
         console.log('handleSubmitEdit questionBody', questionBody)
  
         if (!selectedSurvey) {
             alert('Ennen kysymyksen tallentamista pitää valita kysely!')
-            return;
+            return
         }
 
         console.log('handleSubmitEdit editableQuestion', editableQuestion.id)
 
-        const response = await fetch(`https://team4back.herokuapp.com/api/questions/${editableQuestion.id}`, {
+        if (form.checkValidity() === true) {
+        const response = await fetch(`https://team4back.herokuapp.com/putQuestion/${editableQuestion.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(questionBody)
         })
-        
-        try {
+
             await response.json().then(
                 data => {
                     console.log('handleSubmitEdit data', data)
                     setSurveyQuestions(surveyQuestions.map(question => question.id !== editableQuestion.id ? question : data))
+                    setNotification(true)
+                    console.log('handleSubmitEdit', response)
+                    setValidated(false)
                 }
             )
-            setNotification(true)
-            return console.log('handleSubmitEdit', response)
+        }
+
         } catch (err) {
             throw err
         }
     }
 
-    const handleDeleteQuestion = async (id) => {
-        return fetch(`https://team4back.herokuapp.com/api/questions/${id}`, { 
-            method: 'DELETE',
-        })
-        .then(response => console.log( 'response', response))
-        .then(setSurveyQuestions(surveyQuestions.filter(question => question.id !== id)))
+    const handleDeleteQuestion = (id) => {
+        if (window.confirm('Haluatko varmasti poistaa kysymyksen?')) {
+            fetch(`https://team4back.herokuapp.com/api/questions/${id}`, { 
+                method: 'DELETE',
+            })
+            .then(response => console.log( 'response', response))
+            .then(setSurveyQuestions(surveyQuestions.filter(question => question.id !== id)))
+        }
     }
 
     return  (
@@ -135,7 +147,6 @@ export default function EditQuestion(props) {
             <Row>
                 <Col md={8}>
                     <h1 className='main-h1'>Muokkaa kysymyksiä</h1>
-                    <h3>Valitse kysely, jonka kysymyksiä muokataan</h3>
                     <Select
                         className='select-survey'
                         value={selectedSurvey}
@@ -150,7 +161,8 @@ export default function EditQuestion(props) {
                         <thead>
                             <tr>
                             <th>Kysymys</th>
-                            <th></th>
+                            <th style={{width: '10%'}}></th>
+                            <th style={{width: '10%'}}></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -163,7 +175,9 @@ export default function EditQuestion(props) {
                                         <Button variant='primary' onClick={() => handleShow(item)}>
                                             Muokkaa
                                         </Button>
-                                        <Button variant="warning ml-2" onClick={()=> handleDeleteQuestion(item.id)}>
+                                    </td>
+                                    <td>
+                                        <Button variant='warning ml-2' onClick={()=> handleDeleteQuestion(item.id)}>
                                             Poista
                                         </Button>
                                     </td>
@@ -179,24 +193,29 @@ export default function EditQuestion(props) {
                 </Modal.Header>
                 <Modal.Body>
                     { notification ?
-                        <Alert variant="success" onClose={() => setNotification(false)} dismissible>
+                        <Alert variant='success' onClose={() => setNotification(false)} dismissible>
                             Kysymys tallennettu
                         </Alert> 
                     : null }
-                    <Form onSubmit={handleSubmitEdit}>
-                        <Form.Group>
-                            <Form.Label>Kysymys</Form.Label>
-                            <Form.Control type='text' value={editableQuestion.question} onChange={handleEditableQuestionChange} />
-                        </Form.Group>
-                        <Form.Label>Vaihtoehdot:</Form.Label>
+                    <Form noValidate validated={validated} onSubmit={handleSubmitEdit}>
+                        <FormGroup>
+                            <FormLabel>Kysymys</FormLabel>
+                            <FormControl required type='text' value={editableQuestion.question} onChange={handleEditableQuestionChange} />
+                        </FormGroup>
+                        { editableQuestion.type !== 3 ? 
+                            <FormLabel>Vaihtoehdot:</FormLabel>
+                        : null
+                        }
                         {editableQuestionOptions.map(item => 
-                            <Form.Group key={item.optionid} >
-                                <Form.Control type='text' value={item.option} onChange={(e) => handleEditableQuestionOptionsChange(item, e)} />
-                            </Form.Group>
+                            <FormGroup key={item.optionid} >
+                                {editableQuestionOptions.length > 1 ?
+                                <FormControl required type='text' value={item.option} onChange={(e) => handleEditableQuestionOptionsChange(item, e)} />
+                                : null }
+                            </FormGroup>
                         )}
-                        <Form.Group>
+                        <FormGroup>
                             <Button type='submit' className='btn btn-primary mt-3'>Lähetä</Button>
-                        </Form.Group>
+                        </FormGroup>
                     </Form>
                 </Modal.Body>
             </Modal>

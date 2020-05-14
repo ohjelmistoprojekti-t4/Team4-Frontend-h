@@ -26,9 +26,13 @@ export default function Navigation() {
                 <Nav className="mr-auto">
                     <NavLink to="/start" activeClassName="active">Kysely</NavLink>
                     <NavLink to="/results" activeClassName="active">Tulokset</NavLink>
-                    <NavLink to="/addsurvey" activeClassName="active">Lisää uusi kysely</NavLink>
+                    <NavLink to="/addsurvey" activeClassName="active">Lisää ja muokkaa kyselyitä</NavLink>
+<<<<<<< HEAD
+                    <NavLink to="/addquestion" activeClassName="active">Lisää kysymyksiä</NavLink>
+=======
                     <NavLink to="/addquestion" activeClassName="active">Lisää kyselyyn kysymyksiä</NavLink>
-                    <NavLink to="/editquestion" activeClassName="active">Muokkaa kyselyä</NavLink>
+>>>>>>> e24a92e71b2ef92a1c6d645fc853705fb7bef37a
+                    <NavLink to="/editquestion" activeClassName="active">Muokkaa kysymyksiä</NavLink>
                 </Nav>
                 <Nav>
                     <Button variant="outline-primary" onClick={signInOut}>{signedLabel}</Button>

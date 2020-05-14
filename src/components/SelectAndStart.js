@@ -47,7 +47,7 @@ export default function SelectAndStart() {
 
     // Varmistetaan, haluaako käyttäjä keskeyttää vastaamisen ja näytetään kyselyiden lista
     const cancelSurvey = () => {
-        if (window.confirm("Haluatko varmsti keskeyttää vastaamisen?")) {
+        if (window.confirm("Haluatko varmasti keskeyttää vastaamisen?")) {
             setComponentToRender("default");
         }
     }

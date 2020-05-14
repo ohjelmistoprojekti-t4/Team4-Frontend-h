@@ -97,9 +97,7 @@ export default function ShowQuestionsByOne(props) {
     } else {
         return (
             <div className="question-container" id="showSingle">
-            
                 <div className="question-card"><h5 className="question-heading">Siinä se!</h5>
-                
                 <p>Ei muuta kysyttävää, kiitos.</p>
                
                 <Link to={{
@@ -111,7 +109,6 @@ export default function ShowQuestionsByOne(props) {
         
                 
                 </div>
-                
             </div>
         )
     }
