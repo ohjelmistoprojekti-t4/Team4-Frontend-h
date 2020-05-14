@@ -9,8 +9,11 @@ export default function Results(props) {
 
     const [userAnswers, setUserAnswers] = useState([]);
     const [title, setTitle] = useState("Kaikki vastaukset kaikkiin kysymyksiin");
+    // const [selectedAnswerSet, setSelectedAnswerSet] = useState();
 
     useEffect(() => fetchAnswers(), [])
+
+    const selectedAnswerSet = 2207;
 
     const fetchAnswerset = () => {
         fetch('https://team4back.herokuapp.com/api/answerSets/' +props.location.state.answerSetId+ '/userAnswers')
@@ -27,7 +30,9 @@ export default function Results(props) {
     const fetchAnswers = () => {
         if (props.location.state) {
             fetchAnswerset();
-            setTitle("Vastauskerran #" +props.location.state.answerSetId+ " vastaukset" );
+            setTitle("Vastauskerran #" +props.location.state.answerSetId+ " vastaukset. UniqueUserSession #"
+                                        +props.location.state.userSession);
+            console.log("User session: ", props.location.state.userSession);
         } else {
             fetchAllAnswers();
         }
@@ -57,9 +62,9 @@ export default function Results(props) {
                 } 
                 // Tai lisätään uusi vastaus kysymyksen alle
                     groupedAnswers[0]['inputAnswers'][userAnswers[i].refQuestionString].push(
-                                                                  {  'answer': userAnswers[i].textAnswer,
-                                                                     'refAnswerSetId' :  userAnswers[i].refAnswerSetId,
-                                                                     'belongsToSet' : false } );
+                        {  'answer': userAnswers[i].textAnswer,
+                       //     'refAnswerSetId' :  userAnswers[i].refAnswerSetId,
+                            'belongsToSet' : (userAnswers[i].refAnswerSetId === selectedAnswerSet) ? true : false } );
             // Jos vastaus on radio tai checkbox    
             } else {
                 // Jos kysymystä ei ole valmiiksi objektissa
@@ -74,12 +79,16 @@ export default function Results(props) {
                     // Lisätään vaihtoehtovastaus ja asetetaan vaihtoehdon vastausten laskurin arvoksi 1 ja kasvatetaan kaikkien vaihtoehtojen määrää
                     answerOptionsCount[userAnswers[i].refQuestionId]++;
                     groupedAnswers[1]['optionAnswers'][userAnswers[i].refQuestionString][userAnswers[i].refOptionString] = {
-                                                                                                     'label' : userAnswers[i].refOptionString,
-                                                                                                     'questionId' : userAnswers[i].refQuestionId,   
-                                                                                                     'count' : 1,
-                                                                                                     'refAnswerSetId' :  userAnswers[i].refAnswerSetId,
-                                                                                                     'belongsToSet' : false
-                                                                                                    };
+                        'label' : userAnswers[i].refOptionString,
+                        'questionId' : userAnswers[i].refQuestionId,   
+                        'count' : 1,
+                   //     'refAnswerSetId' :  userAnswers[i].refAnswerSetId,
+                        'belongsToSet' : (userAnswers[i].refAnswerSetId === selectedAnswerSet) ? true : false
+                    };
+
+                    console.log("selected aSet: ", selectedAnswerSet);
+                    console.log("i set id: ", userAnswers[i].refAnswerSetId);
+
                         
                         
                 } else {
@@ -109,7 +118,7 @@ export default function Results(props) {
                 <div className="result-div">
                     <h6>{key}</h6>
                     <ul className="single-answer-list-ul">
-                    {groupedAnswers[0]['inputAnswers'][key].map( (answer) => <li>{answer.answer}</li> ) }
+                    {groupedAnswers[0]['inputAnswers'][key].map( (answer) => <li className={`${answer.belongsToSet ? "aSet" : "reg"}`}>{answer.answer}</li> ) }
                     </ul></div>
                 
                 )}
@@ -117,10 +126,10 @@ export default function Results(props) {
                 {Object.keys(groupedAnswers[1]['optionAnswers']).map(key => 
                 <div className="result-div">
                 <h6>{key}</h6>
-                <ul className="single-answer-ul-charts">
+                <ul className="single-answer-charts-ul">
                     {Object.keys(groupedAnswers[1]['optionAnswers'][key]).map( i =>  
                         
-                        <li style={{ background: `linear-gradient(to right, rgb(187, 186, 220) ${(groupedAnswers[1]['optionAnswers'][key][i].count / 
+                        <li className={`${groupedAnswers[1]['optionAnswers'][key][i].belongsToSet ? "aSet" : "reg"}`} style={{ background: `linear-gradient(to right, rgb(187, 186, 220) ${(groupedAnswers[1]['optionAnswers'][key][i].count / 
                         answerOptionsCount[groupedAnswers[1]['optionAnswers'][key][i].questionId]*100)}%, rgb(226, 245, 242) 0%)`}}>
 
                         {/*  <span className="results-option-persentage" style={{width: 

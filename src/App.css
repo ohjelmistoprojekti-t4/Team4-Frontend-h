@@ -205,21 +205,40 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   position: relative;
 }
 
-.single-answer-ul-charts li {
+.single-answer-charts-ul li {
   background: #fdfdfd;
   list-style: none;
-  padding: 1em 3em;
   margin: 0.2em 0;
   font-size: 1.2em;
   position: relative;
+  border-radius: 6px;
+}
+
+.single-answer-charts-ul li.reg {
+  padding: 0.9em 3em 1em;
+}
+
+.single-answer-charts-ul li.aSet {
+  border: 0.2em solid #ff6464;
+  padding: 0.7em 2.8em 0.8em;
 }
 .single-answer-list-ul li {
   background: #f1f1f1;
   list-style: none;
-  padding: 0.5em 2em;
   margin: 0.2em;
   font-size: 1.2em;
   display: inline-block;
+  border-radius: 6px;
+}
+
+.single-answer-list-ul li.reg {
+  padding: 0.35em 2em 0.5em;
+  
+}
+
+.single-answer-list-ul li.aSet {
+  border: 0.2em solid #ff6464;
+  padding: 0.15em 1.8em 0.3em;
 }
 
 .single-answer-ul li:nth-child(2) {

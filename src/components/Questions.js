@@ -24,7 +24,7 @@ export default function Questions(props) {
 
     return (
         
-        <ShowQuestionsByOne questions={questions} answerSetId={props.currentAnswerSet} />
+        <ShowQuestionsByOne questions={questions} survey={props.surveyLink} answerSetId={props.currentAnswerSet} />
         
       );
 

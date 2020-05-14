@@ -78,7 +78,7 @@ export default function SelectAndStart() {
     function renderComponent(type) {
         switch(type) {
           case "survey":
-            // Näytetään kysely ja keskyttämisen mahdollistava painike
+            // Näytetään kysely ja keskeyttämisen mahdollistava painike
             return(
                 <>
                     <h1 className="main-h1">{selectedSurvey.label}
@@ -94,7 +94,6 @@ export default function SelectAndStart() {
             // Oletuksena näytetään lista kyselyistä ja muut mahdolliset aloitussivun komponentit
             return (
                   <> 
-                  
                     <h1 className="main-h1">Valitse kysely ja aloita</h1>
                         <Select
                         className="select-survey"
@@ -103,24 +102,22 @@ export default function SelectAndStart() {
                         options={options}
                         placeholder="Valitse kysely..."
                         />
-
                         <Button type="button" onClick={() => startSurvey() }>Aloita kysely</Button>
                   </>
             )
         }
     }
    
-    // Näytetään käyttäjälle joko kyselyn valitsemisen mahdollistavan valikon tai kysymykset
+    // Näytetään käyttäjälle joko kyselyn valitsemisen mahdollistava valikko yms tai siirrytään kysymyksiin
     return (
         <Container fluid={"xl"} className="BodyContainer">
 
             <Row>
                 <Col className="col-xs-12 col-xl-8">
                     
-                {renderComponent(componentToRender)}
+                    {renderComponent(componentToRender)}
     
                 </Col>
-        
             </Row>
         </Container>
     )

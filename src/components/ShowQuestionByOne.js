@@ -11,6 +11,25 @@ export default function ShowQuestionsByOne(props) {
     const [lastQuestion, setLastQuestion] = useState(false);
     const [btnLabel, setBtnLabel] = useState("Seuraava kysymys");
     const [statePersentage, setStatePersentage] = useState(0);
+    const [userSession, setUserSession] = useState();
+
+
+    const addUniqueUserSession = () => {
+        fetch('https://team4back.herokuapp.com/api/uniqueUserSessions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ answerSet : 'https://team4back.herokuapp.com/api/answerSets/' + props.answerSetId,
+                                   survey : props.survey })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("User session created: ", data);
+                setUserSession(data.uniqueId);
+            })
+            .catch(err => console.log(err))
+        };
 
     function objectMap(object, mapFn) {
         return Object.keys(object).reduce(function(result, key) {
@@ -27,20 +46,23 @@ export default function ShowQuestionsByOne(props) {
     })
 
     // Näytetään seuraava kysymys kun tätä kutsutaan komponentista AnswerOptions
-    const callbackFunction = () => {        
+ /*    const callbackFunction = () => {        
         console.log("Persentage:", statePersentage);
         nextQuestion();
-   }
+   } */
 
-    let newIndex;
+    
     const nextQuestion = () => {
-        
+            let newIndex;
             // Tarkistetaan onko kysymys viimeinen tai toiseksi viimeinen
 
             if ((index + 1) === questionsArr.length) {
                 setLastQuestion(true);
                 console.log("now is last increment");
             } else if ((index + 2) === questionsArr.length) {
+                
+                addUniqueUserSession();
+
                 console.log("one more to go!");
                 setBtnLabel("Vastaa ja katso tulokset");
                 newIndex = index + 1;
@@ -52,6 +74,7 @@ export default function ShowQuestionsByOne(props) {
     }
     
     console.log("Props from question.one.by.one: ", props);
+    console.log("survey link: ", props.survey )
 
     const Question = () => {
         
@@ -71,7 +94,7 @@ export default function ShowQuestionsByOne(props) {
                                 questionId={questionsArr[index].id} 
                                 questionString={questionsArr[index].question}  
                                 answerSetId={props.answerSetId}
-                                parentCallback = {callbackFunction} />
+                                nextQuestion = {nextQuestion} />
                     </div>
                 </div>
             )
@@ -103,7 +126,8 @@ export default function ShowQuestionsByOne(props) {
                 <Link to={{
                     pathname: '/results',
                     state: {
-                        answerSetId: props.answerSetId
+                        answerSetId: props.answerSetId,
+                        userSession: userSession
                     }
                     }}>Katso vastauksesi</Link>
         
