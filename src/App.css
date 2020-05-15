@@ -13,10 +13,10 @@ body {
 }
 
 #nav-icon1, #nav-icon2, button #nav-icon3, #nav-icon4 {
-  width: 50px;
-  height: 40px;
+  width: 35px;
+  height: 30px;
   position: relative;
-  margin: 10px auto;
+  margin: 12px auto 10px;
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -o-transform: rotate(0deg);
@@ -56,15 +56,15 @@ button #nav-icon3 span:nth-child(1) {
 }
 
 button #nav-icon3 span:nth-child(2),button #nav-icon3 span:nth-child(3) {
-  top: 18px;
+  top: 12px;
 }
 
 button #nav-icon3 span:nth-child(4) {
-  top: 36px;
+  top: 24px;
 }
 
 button:not(.collapsed) #nav-icon3 span:nth-child(1) {
-  top: 18px;
+  top: 12px;
   width: 0%;
   left: 50%;
 }
@@ -90,43 +90,31 @@ button:not(.collapsed) #nav-icon3 span:nth-child(4) {
 }
 .navbar {
   padding: 0 2em 0 2em;
+  border-bottom: 1px solid #ececec;
 }
 
 .navbar-brand {
-  padding: 2.2em 1.4em 2.3em 1.15em;
+  padding: 1em 1.4em 1em 1.15em;
   font-weight: 900;
   font-size: 1.1em;
 }
 
 .navbar-expand-lg .navbar-nav .nav-link {
-  padding: 0.4em 1em 0.5em 1em;
+  padding: 0.6em 1em 0.7em 1em;
   color: #12776d;
   /* text-transform: uppercase; */
   font-family: 'lato', sans-serif;
   font-weight: 400;
-  font-size: 1.7em;
+  font-size: 1.5em;
   line-height: 1.2;
-  border-radius: 12px;
+  border-radius: 6px;
 }
 
-@media (min-width: 992px) {
-
-  .navbar-brand {
-    padding: 0 3em 0 2em;
-    font-size: 1.1em;
-
-  }
-
-  .navbar-expand-lg .navbar-nav .nav-link {
-    padding: 1.2em 1.4em 1.3em 1.4em;
-      color: #12776d;
-      /* text-transform: uppercase; */
-      font-family: 'lato', sans-serif;
-      font-weight: 400;
-      font-size: 1em;
-      border-radius: 0;
-  }
+div.show .btn {
+  margin: 1.2em 0 2.4em;
 }
+
+
 
 .navbar-nav a.active {
   color: #7aa3cc;
@@ -145,6 +133,10 @@ button:not(.collapsed) #nav-icon3 span:nth-child(4) {
 }
 
 /******* Questions *******/
+
+dl, ol, ul {
+  padding-left: 0;
+}
 
 .cancelSurveyBtn {
   float: right;
@@ -282,6 +274,7 @@ button:not(.collapsed) #nav-icon3 span:nth-child(4) {
   margin: 0;
   display: block;
   font-size: 1.2em;
+  font-weight: 700;
 }
 
 .result-div-charts h6 {
@@ -289,6 +282,7 @@ button:not(.collapsed) #nav-icon3 span:nth-child(4) {
   margin: 0;
   display: block;
   font-size: 1.2em;
+  font-weight: 700;
 }
 
 .single-answer-ul {
@@ -448,4 +442,28 @@ button:not(.collapsed) #nav-icon3 span:nth-child(4) {
 }
 .surveyListControls {
   margin-left: auto;
+}
+
+@media (min-width: 992px) {
+
+  .navbar-brand {
+    padding: 0 3em 0 2em;
+    font-size: 1.1em;
+
+  }
+
+  .navbar-expand-lg .navbar-nav .nav-link {
+    padding: 1.2em 1.4em 1.3em 1.4em;
+      color: #12776d;
+      /* text-transform: uppercase; */
+      font-family: 'lato', sans-serif;
+      font-weight: 400;
+      font-size: 1em;
+      border-radius: 0;
+  }
+
+  dl, ol, ul {
+      padding-left: 3em;
+  }
+
 }

@@ -19,7 +19,7 @@ export default function Navigation() {
         <>
         <Navbar bg="light" expand="lg" collapseOnSelect>
 
-            <Navbar.Brand as={Link} to="/" activeClassName="active">Tiimi 4</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/" activeClassName="active">Tiimi<span>4</span></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" >
             <span>
                 <div id="nav-icon3">
