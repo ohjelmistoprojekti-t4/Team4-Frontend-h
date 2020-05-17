@@ -442,6 +442,20 @@ dl, ol, ul {
 }
 .surveyListControls {
   margin-left: auto;
+  display: flex;
+}
+
+.AddSurveyInput {
+  width: 40em;
+  height: 2.6em;
+  font-size: 0.9em;
+  border-radius: 3px;
+  border: 1px solid gray;
+  padding-left: 7.5px;
+  font-family: sans-serif;
+}
+.survey-tr {
+  border-color: white;
 }
 
 @media (min-width: 992px) {
