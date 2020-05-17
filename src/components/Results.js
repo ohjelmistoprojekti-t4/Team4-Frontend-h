@@ -1,156 +1,111 @@
 import React from 'react';
-import {useState, useEffect} from 'react'
-import _ from 'lodash'
+import {useState, useEffect} from 'react';
+import Select from 'react-select';
+import RenderAnswers from './RenderAnswers';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Results(props) {
 
-    const [userAnswers, setUserAnswers] = useState([]);
     const [title, setTitle] = useState("Kaikki vastaukset kaikkiin kysymyksiin");
-    // const [selectedAnswerSet, setSelectedAnswerSet] = useState();
 
-    useEffect(() => fetchAnswers(), [])
+    const [selectedSurvey, setSelectedSurvey] = useState(null);
+    const [selectedSession, setSelectedSession] = useState(null);
+    const [surveys, setSurveys] = useState([]);
+    const [sessions, setSessions] = useState([]);
 
-    const selectedAnswerSet = 2207;
+    const [TitleSurvey, setTitleSurvey] = useState("Ei kyselyä valittuna");
+    const [TitleSession, setTitleSession] = useState("Ei yksittäistä vastauskertaa valittuna");
 
-    const fetchAnswerset = () => {
-        fetch('https://team4back.herokuapp.com/api/answerSets/' +props.location.state.answerSetId+ '/userAnswers')
-        .then(response => response.json())
-        .then(data => setUserAnswers(data._embedded.userAnswers))
-    }
+    const [selectedAnswerSet, setSelectedAnswerSet] = useState("");
+    const surveysSelect = [];  
+    const sessionsSelect = [];
 
-    const fetchAllAnswers = () => {
-        fetch('https://team4back.herokuapp.com/getUserAnswers')
-        .then(response => response.json())
-        .then(data => setUserAnswers(data))
-    }
+    useEffect(() => getSurveys(), [])
 
-    const fetchAnswers = () => {
-        if (props.location.state) {
-            fetchAnswerset();
-            setTitle("Vastauskerran #" +props.location.state.answerSetId+ " vastaukset. UniqueUserSession #"
-                                        +props.location.state.userSession);
-            console.log("User session: ", props.location.state.userSession);
-        } else {
-            fetchAllAnswers();
+    useEffect(() => {
+        if (surveys !== "") {
+            console.log("surveys", surveys);
+            surveys.map(survey => surveysSelect.push({value: survey.id, label: survey.name}))
         }
-    }
 
-    const groupedAnswers = [{
-        'inputAnswers' : {
-               
-                        }
-                },{
-        'optionAnswers' : {
-
-                        }     
+        if (sessions !== "") {
+            console.log("sessions", sessions);
+            sessions.map(session => 
+                sessionsSelect.push({value: session.uniqueId, label: session.uniqueId})
+            );
         }
-    ]            
+    });
 
-    console.log(userAnswers);
-    const answerOptionsCount = {};
-    const groupAnswers = () => {
-        for (let i=0; i < userAnswers.length; i++) {
-            // Jos vastauksessa on input-kentästä tullut tekstivastaus
-            if (userAnswers[i].textAnswer) {
-                // Jos kysymystä ei ole valmiiksi objektissa
-                if (!(userAnswers[i].refQuestionString in groupedAnswers[0]['inputAnswers'])) {
-                    // Luodaan uusi kysymystietue
-                    groupedAnswers[0]['inputAnswers'][userAnswers[i].refQuestionString] = []                                                   
-                } 
-                // Tai lisätään uusi vastaus kysymyksen alle
-                    groupedAnswers[0]['inputAnswers'][userAnswers[i].refQuestionString].push(
-                        {  'answer': userAnswers[i].textAnswer,
-                       //     'refAnswerSetId' :  userAnswers[i].refAnswerSetId,
-                            'belongsToSet' : (userAnswers[i].refAnswerSetId === selectedAnswerSet) ? true : false } );
-            // Jos vastaus on radio tai checkbox    
-            } else {
-                // Jos kysymystä ei ole valmiiksi objektissa
-                if (!(userAnswers[i].refQuestionString in groupedAnswers[1]['optionAnswers'])) {
-                    // Luodaan uusi kysymystietue
-                    groupedAnswers[1]['optionAnswers'][userAnswers[i].refQuestionString] = [];
-                    answerOptionsCount[userAnswers[i].refQuestionId] = 0;                               
-                }
-
-                // Tarkistetaan, onko vaihtoehtovastauksen laskuria jo lisätty
-                if (!(userAnswers[i].refOptionString in groupedAnswers[1]['optionAnswers'][userAnswers[i].refQuestionString])) {
-                    // Lisätään vaihtoehtovastaus ja asetetaan vaihtoehdon vastausten laskurin arvoksi 1 ja kasvatetaan kaikkien vaihtoehtojen määrää
-                    answerOptionsCount[userAnswers[i].refQuestionId]++;
-                    groupedAnswers[1]['optionAnswers'][userAnswers[i].refQuestionString][userAnswers[i].refOptionString] = {
-                        'label' : userAnswers[i].refOptionString,
-                        'questionId' : userAnswers[i].refQuestionId,   
-                        'count' : 1,
-                   //     'refAnswerSetId' :  userAnswers[i].refAnswerSetId,
-                        'belongsToSet' : (userAnswers[i].refAnswerSetId === selectedAnswerSet) ? true : false
-                    };
-
-                    console.log("selected aSet: ", selectedAnswerSet);
-                    console.log("i set id: ", userAnswers[i].refAnswerSetId);
-
-                        
-                        
-                } else {
-                    groupedAnswers[1]['optionAnswers'][userAnswers[i].refQuestionString][userAnswers[i].refOptionString].count++;
-                    answerOptionsCount[userAnswers[i].refQuestionId]++;
-                }
-            }
-        }   
+    // Ladataan kyselyt
+    const getSurveys = () => {
+        fetch('https://team4back.herokuapp.com/api/surveys')
+        .then(response => response.json())
+        .then(data => {
+            setSurveys(data._embedded.surveys);
+        })
     }
-    groupAnswers();
 
-    console.log("Grouped answers arr: ", groupedAnswers);
-    console.log("count by id: ", answerOptionsCount);
+    const handleSurveySelection = (selectedSurvey) => {
+        setSelectedSurvey(selectedSurvey);
+        setTitleSurvey(selectedSurvey.label);
+        getUniqueSessions(selectedSurvey.value);
+    };
 
+    const handleSessionSelection = (selectedSession) => {
+        setSelectedSession(selectedSession);
+        fetchAnswerset(selectedSession.value);
+        setTitleSession(selectedSession.label);
+    };
+
+    const getUniqueSessions = (survey) => {
+        fetch('https://team4back.herokuapp.com/api/surveys/' + survey +'/uniqueUser')
+        .then(response => response.json())
+        .then(data => {
+            setSessions(data._embedded.uniqueUserSessions);
+        })
+    }
+
+    const fetchAnswerset = (answerSetId) => {
+        fetch('https://team4back.herokuapp.com/api/uniqueUserSessions/' +answerSetId+ '/answerSet')
+        .then(response => response.json())
+        .then(data => { console.log("userAnswers: ", data);
+                        setSelectedAnswerSet(data.answerSetId);
+        })
+    }
+
+    console.log("From results: aSet: ", selectedAnswerSet)
     return (
         <>
-    
         <Container fluid={"xl"} className="BodyContainer results-component">
 
             <Row>
                 <Col md={12}>
                 <h1 className="main-h1">{title}</h1>
-
-                <h3>Vastaukset kysymyksen mukaan ryhmiteltyinä</h3>
-
-                {Object.keys(groupedAnswers[0]['inputAnswers']).map(key =>  
-                <div className="result-div">
-                    <h6>{key}</h6>
-                    <ul className="single-answer-list-ul">
-                    {groupedAnswers[0]['inputAnswers'][key].map( (answer) => <li className={`${answer.belongsToSet ? "aSet" : "reg"}`}>{answer.answer}</li> ) }
-                    </ul></div>
-                
-                )}
-
-                {Object.keys(groupedAnswers[1]['optionAnswers']).map(key => 
-                <div className="result-div">
-                <h6>{key}</h6>
-                <ul className="single-answer-charts-ul">
-                    {Object.keys(groupedAnswers[1]['optionAnswers'][key]).map( i =>  
-                        
-                        <li className={`${groupedAnswers[1]['optionAnswers'][key][i].belongsToSet ? "aSet" : "reg"}`} style={{ background: `linear-gradient(to right, rgb(187, 186, 220) ${(groupedAnswers[1]['optionAnswers'][key][i].count / 
-                        answerOptionsCount[groupedAnswers[1]['optionAnswers'][key][i].questionId]*100)}%, rgb(226, 245, 242) 0%)`}}>
-
-                        {/*  <span className="results-option-persentage" style={{width: 
-                            (groupedAnswers[1]['optionAnswers'][key][i].count / 
-                             answerOptionsCount[groupedAnswers[1]['optionAnswers'][key][i].questionId])
-                             * 100 + '%'}} >
-                        </span>  */}
-                        <span className="results-option-label">
-                        {groupedAnswers[1]['optionAnswers'][key][i].label}
-                            <span className="results-option-details">
-                                    ({groupedAnswers[1]['optionAnswers'][key][i].count} kpl)
-                            </span>
-                        </span>
-                    
-                        </li> )
-                        
-                    }
-                </ul></div>   
-                )}
-                
-    
+ 
+                <Select
+                            className="select-survey"
+                            value={selectedSurvey}
+                            onChange={handleSurveySelection}
+                            options={surveysSelect}
+                            placeholder="Valitse kysely..."
+                    />
+                <Select
+                            className="select-survey"
+                            value={selectedSession}
+                            onChange={handleSessionSelection}
+                            options={sessionsSelect}
+                            placeholder="Valitse vastauskerta..."
+                />
+                     
+                <RenderAnswers
+                    surveyId={selectedSurvey}
+                    selectedAnswerSet={selectedAnswerSet}
+                    titleSurvey={TitleSurvey}
+                    titleSession={TitleSession}
+                />
+               
                 </Col>
         
             </Row>

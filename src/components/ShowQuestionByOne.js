@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import AnswerOptions from './AnswerOptions';
 import Spinner from 'react-bootstrap/Spinner';
 import ProgressBar from './form-elements/ProgressBar';
+import RenderAnswers from './RenderAnswers';
 
 export default function ShowQuestionsByOne(props) {
 
@@ -19,9 +20,10 @@ export default function ShowQuestionsByOne(props) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
+        //        'Authorization': 'Basic ' + window.btoa('Administrator:Nimda')
             },
             body: JSON.stringify({ answerSet : 'https://team4back.herokuapp.com/api/answerSets/' + props.answerSetId,
-                                   survey : props.survey })
+                                   survey : props.surveyLink })
         })
             .then(response => response.json())
             .then(data => {
@@ -76,6 +78,7 @@ export default function ShowQuestionsByOne(props) {
     console.log("Props from question.one.by.one: ", props);
     console.log("survey link: ", props.survey )
 
+    console.log("From ONEBYONEEEEEE: session: ", props.answerSetId)
     const Question = () => {
         
         // Kysymysten latauduttua näytetään spinnerin sijaan ensimmäinen kysymys
@@ -119,21 +122,13 @@ export default function ShowQuestionsByOne(props) {
     // Kun viimeiseen kysymykseen on vastattu, näytetään linkki tämän vastauskerran vastauksiin    
     } else {
         return (
-            <div className="question-container" id="showSingle">
-                <div className="question-card"><h5 className="question-heading">Siinä se!</h5>
-                <p>Ei muuta kysyttävää, kiitos.</p>
-               
-                <Link to={{
-                    pathname: '/results',
-                    state: {
-                        answerSetId: props.answerSetId,
-                        userSession: userSession
-                    }
-                    }}>Katso vastauksesi</Link>
-        
-                
-                </div>
-            </div>
+         
+            <RenderAnswers
+                surveyId={ {'value': props.surveyId } }
+                selectedAnswerSet={props.answerSetId}
+                titleSurvey={props.surveyId}
+                titleSession={props.answerSetId}
+            />
         )
     }
 
