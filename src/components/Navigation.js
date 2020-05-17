@@ -38,28 +38,35 @@ export default function Navigation() {
             </span>
             </Navbar.Toggle>
             <Navbar.Collapse id="basic-navbar-nav">
-            
+            { signedIn ?
+                <>    
                 <Nav className="mr-auto">
                     <Nav.Link eventKey="1" as={Link} to="/start" activeClassName="active">Kysely</Nav.Link>
-                    { signedIn ?
-                     <>
+                    
                     <Nav.Link eventKey="2" as={Link} to="/results" activeClassName="active">Tulokset</Nav.Link>
                     <Nav.Link eventKey="3" as={Link} to="/addsurvey" activeClassName="active">Lisää ja muokkaa kyselyitä</Nav.Link>
                     <Nav.Link eventKey="4" as={Link} to="/addquestion" activeClassName="active">Lisää kysymyksiä</Nav.Link>
                     <Nav.Link eventKey="5" as={Link} to="/editquestion" activeClassName="active">Muokkaa kysymyksiä</Nav.Link>
+                </Nav>
+                <Nav>   
                     <Navbar.Text>
                          Kirjautunut: <a href="#login"> Administrator</a>
                     </Navbar.Text>
                     <NavLink to="/api/logout" activeClassName="active">
                          <Button variant="outline-primary" className="ml-2" onClick={signInOut}>{signedLabel}</Button>
                     </NavLink>
-                    </>
-                    :
-                    <>
-                        <Button variant="outline-primary" onClick={loginShow}>{signedLabel}</Button>
-                    </>
-                    }
                 </Nav>
+                </>
+                : 
+                <>
+                <Nav className="mr-auto">
+                    <Nav.Link eventKey="1" as={Link} to="/start" activeClassName="active">Kysely</Nav.Link>
+                </Nav>
+                <Nav>
+                    <Button variant="outline-primary" onClick={loginShow}>{signedLabel}</Button>    
+                </Nav>
+                </>
+                }
                 
             </Navbar.Collapse>
         </Navbar>
