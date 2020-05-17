@@ -9,10 +9,9 @@ export default function EditQuestion(props) {
     const [editableQuestion, setEditableQuestion] = React.useState('')
     const [editableQuestionOptions, setEditableQuestionOptions] = React.useState([])
 
-
     const [show, setShow] = useState(false)
     const [notification, setNotification] = useState(false)
-    const [validated, setValidated] = useState(false);
+    const [validated, setValidated] = useState(false)
     
     const [selectedSurvey, setSelectedSurvey] = useState({ value: '', label: 'Valitse kysely...'})
     const [surveys, setSurveys] = useState([])
@@ -57,7 +56,6 @@ export default function EditQuestion(props) {
         setEditableQuestion(item)
     }
 
-    
     const handleEditableQuestionChange = (event) => {
         console.log(event.target.value)
         setEditableQuestion({ ...editableQuestion, question: event.target.value })
@@ -70,8 +68,6 @@ export default function EditQuestion(props) {
         console.log('changed option', changedOption)
         setEditableQuestionOptions(editableQuestionOptions.map(note => note.optionid !== changedOption.optionid ? note : changedOption))
     }
-
-    //console.log('editableQuestionOptions', editableQuestionOptions)
 
     const handleSelectedSurveyChange = (event) => {
         console.log('handleSelectedSurveyChange event', event)
@@ -121,6 +117,9 @@ export default function EditQuestion(props) {
                     console.log('handleSubmitEdit data', data)
                     setSurveyQuestions(surveyQuestions.map(question => question.id !== editableQuestion.id ? question : data))
                     setNotification(true)
+                    setTimeout(() => {
+                        setNotification(false)
+                    }, 3000)
                     console.log('handleSubmitEdit', response)
                     setValidated(false)
                 }
@@ -193,7 +192,7 @@ export default function EditQuestion(props) {
                 </Modal.Header>
                 <Modal.Body>
                     { notification ?
-                        <Alert variant='success' onClose={() => setNotification(false)} dismissible>
+                        <Alert variant='success' onClose={() => setNotification(false)} >
                             Kysymys tallennettu
                         </Alert> 
                     : null }

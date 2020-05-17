@@ -39,9 +39,6 @@ export default function AddQuestion(props) {
         console.log('event', event)
         setSelectedSurvey(event)
     }
-
-    //console.log('selectedSurvey', selectedSurvey)
-    //console.log('surveyOptions', surveyOptions)
     
     const fetchData = () => {
         fetch('https://team4back.herokuapp.com/api/surveys')
@@ -104,6 +101,9 @@ export default function AddQuestion(props) {
                 setQuestion({...question, 'question':''})
                 setNewQuestionOptions([{ id: 0, option: '' }])
                 setNotification(true)
+                setTimeout(() => {
+                    setNotification(false)
+                }, 3000)
                 setValidated(false)
                 console.log(data)
             }
@@ -112,8 +112,6 @@ export default function AddQuestion(props) {
             throw err
         }
     }
-    
-    //console.log('newQuestionOptions', newQuestionOptions)
 
     const handleNewQuestionOptionsChange = (item, event) => {
         console.log(event.target.value)
@@ -166,7 +164,7 @@ export default function AddQuestion(props) {
                     <div>
                         <h3 className='mt-5 mb-3'>Lisää uusi kysymys</h3>
                         { notification ?
-                            <Alert variant='success' onClose={() => setNotification(false)} dismissible>
+                            <Alert variant='success' onClose={() => {setNotification(false)}} >
                                 Uusi kysymys lisätty
                             </Alert> 
                         : null }
