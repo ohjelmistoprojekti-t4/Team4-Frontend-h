@@ -7,15 +7,7 @@ import SurveyList from './SurveyList';
 
 export default function AddSurvey(props) {
     const [newSurvey, setNewSurvey] = useState({ name: ''})
-    const [surveys, setSurveys] = useState([])
-    
-
-    useEffect(() => fetchData(), [])
-    const fetchData = () => {
-        fetch('https://team4back.herokuapp.com/api/surveys')
-        .then(response => response.json())
-        .then(data => setSurveys(data._embedded.surveys))
-    }
+    const [adding, setAdding] = useState(false)
 
 
     const handleChange = (event) => {
@@ -24,47 +16,40 @@ export default function AddSurvey(props) {
     }
   
     const handleSubmit = () => {
-        
+        if (newSurvey.name !== "") {
         const surveyBody = { "name": newSurvey.name  }
-        console.log(surveyBody)
-         
-    fetch('https://team4back.herokuapp.com/api/surveys', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(surveyBody)
-    }) 
     
-    console.log("Survey", surveyBody)
-    window.location.reload(false);
- };
-  
+    fetch('https://team4back.herokuapp.com/api/surveys', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+        },
+            body: JSON.stringify(surveyBody)
+        }) 
+        
+        console.log("Survey", surveyBody)
+        setAdding(true)
+        } 
+        else {
+            alert("Anna kyselylle nimi!")
+        }
 
+    };
+  
     return(
         <Container fluid={"xl"} className="BodyContainer">
-
             <Row>
-                <Col lg={10}>
-        
+                <Col>
                 <h1 className="main-h1">Lisää kysely</h1>
-    
                     <div id="survey-form">
-                        <label for="name">Luo kysely:</label> <br></br>
-                        <input type="text" id="1" name="name" value={newSurvey.name} onChange={handleChange} />
                         
-
-                        <Button className="btn btn-primary" value="Luo kysely" onClick={handleSubmit}>Lisää Kysely</Button>
+                        <input type="text" className="AddSurveyInput" id="1" name="name" value={newSurvey.name} placeholder="Kyselyn nimi" onChange={handleChange} />
+                        <br></br>
+                        <Button style={{marginTop: 15, marginBottom: 30}} className="btn btn-primary" value="Luo kysely" onClick={handleSubmit}>Lisää kysely</Button>
                     </div>
-
-                     <SurveyList surveys={surveys}/>
+                     <SurveyList adding={adding} setAdding={setAdding}/> 
                 </Col>
-                
-                
-                
             </Row>
-
         </Container>
     );
-
 }

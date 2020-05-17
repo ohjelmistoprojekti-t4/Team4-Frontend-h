@@ -5,11 +5,6 @@ import { Button } from 'react-bootstrap';
 
 const SurveyEdit = (props) => {
   const [editName, setEditName] = useState({name: ''});
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
 
   const handleEdit = (event) => {
       setEditName({...editName, [event.target.name]: event.target.value})
@@ -17,9 +12,8 @@ const SurveyEdit = (props) => {
     }
 
   function editSurvey(){
-    
+    if (editName.name !== "") {
     console.log("id", props.id)
-
     fetch(props.id, {
         method: 'PUT',
         headers: {
@@ -29,16 +23,27 @@ const SurveyEdit = (props) => {
     }) 
     
     console.log("Survey", editName)
-    window.location.reload(false);
-    }
+    props.render(true)
+    } else {
+      alert("Anna kyselyn uusi nimi!")
+  }
+  }
 
-
-    return <> 
+  return <> 
     <div id="edit-survey-rename">
-    <label for="name">Nimeä {props.name} uudelleen </label> <br></br>
-    <input type="text" id={props.id} name="name" value={editName.name} onChange={handleEdit} />
+    <input type="text" 
+      placeholder="Anna uusi nimi" 
+      id={props.id} 
+      name="name" 
+      value={editName.name} 
+      onChange={handleEdit} 
+      />
  
-    <Button className="btn btn-success" value="OK" onClick={editSurvey}>OK</Button>
+    <Button className="btn btn-success" 
+      style={{marginRight:15, marginLeft:10}} 
+      value="OK" 
+      onClick={editSurvey}
+      >OK</Button>
     </div>
     </>
   }
