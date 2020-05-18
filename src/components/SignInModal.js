@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, Button, Form, Alert, FormLabel, FormGroup, FormControl } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import loginChecker from './loginChecker'
 
 export default function SignInModal(props) {
 
@@ -13,12 +12,10 @@ const [loginSuccess, setLoginSuccess] = useState(false)
 
 const handleUsernameChange = (event) => {
     setUsername(event.target.value)
-    console.log('username', username)
 }
 
 const handlePasswordChange = (event) => {
     setPassword(event.target.value)
-    console.log('password', password)
 }
 
 const handleSubmit = async (event) => {
@@ -29,21 +26,24 @@ const handleSubmit = async (event) => {
         event.stopPropagation()
         setValidated(true)
     } else {
-        if (loginChecker(username, password)) {
+        if (username === 'Administrator' && password === 'Nimda') {
+            const loggedUser =  {
+                username
+            }
+            window.localStorage.setItem('questionAppUser', JSON.stringify(loggedUser))
             setLoginSuccess(true)
+            props.handleUser()
             setTimeout(() => {
                 setValidated(false)
                 setNotification(false)
                 setLoginSuccess(false)
-                props.signInOut()
                 props.loginClose()
-              }, 2000)
-
+              }, 1000)
         } else {
             setNotification(true)
             setTimeout(() => {
                 setNotification(false)
-              }, 3000)
+              }, 2000)
         }
     }
 }

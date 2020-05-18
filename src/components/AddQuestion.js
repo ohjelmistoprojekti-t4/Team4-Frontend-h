@@ -8,20 +8,20 @@ export default function AddQuestion(props) {
 
     const [question, setQuestion] = React.useState('')
     const [questionType, setQuestionType] = React.useState()
+    const [newQuestionOptions, setNewQuestionOptions] = React.useState([{ id: 0, option: '' }])
+
     const [selectedSurvey, setSelectedSurvey] = useState({ value: '', label: 'Valitse kysely...'})
     const [surveys, setSurveys] = useState([])
-    const [newQuestionOptions, setNewQuestionOptions] = React.useState([{ id: 0, option: '' }])
+    const surveyOptions = []
+
     const [notification, setNotification] = useState(false)
     const [validated, setValidated] = useState(false)
     const [idCounter, setIdCounter] = React.useState(1)
-
-    const surveyOptions = []
     
     useEffect(() => fetchData(), [])
 
     useEffect(() => {
         if (surveys !== '') {
-            console.log('surveys', surveys)
             surveys.map(survey => surveyOptions.push({ 
                 label: survey.name, 
                 value: survey._links.self.href,
@@ -32,11 +32,10 @@ export default function AddQuestion(props) {
 
     const handleQuestionChange = (event) => {
         setQuestion({...question, [event.target.name]: event.target.value})
-        console.log('lomake', question)
     }
 
     const handleSelectedSurveyChange = (event) => {
-        console.log('event', event)
+        console.log('Selected Survey', event)
         setSelectedSurvey(event)
     }
     
@@ -58,7 +57,6 @@ export default function AddQuestion(props) {
             }
             setValidated(true)
 
-            console.log('question', question)
             let questionBody = {}
 
             if (questionType === 1 || questionType === 2) {
@@ -114,10 +112,7 @@ export default function AddQuestion(props) {
     }
 
     const handleNewQuestionOptionsChange = (item, event) => {
-        console.log(event.target.value)
-        console.log(item)
         const changedOption = { ...item, option: event.target.value }
-        console.log('changed option', changedOption)
         setNewQuestionOptions(newQuestionOptions.map(item => item.id !== changedOption.id ? item : changedOption))
     }
 
@@ -128,13 +123,8 @@ export default function AddQuestion(props) {
     }
 
     const removeNewOption = (item, event) => {
-        console.log('removeNewOption event', event)
-        console.log('removeNewOption item', item)
         setNewQuestionOptions(newQuestionOptions.filter(option => option.id !== item.id))
     }
-
-    console.log('newQuestionOptions', newQuestionOptions)
-
 
     return  (
         <Container fluid={'xl'} className='BodyContainer add-question-component'>
@@ -189,7 +179,7 @@ export default function AddQuestion(props) {
                                 </div>
 
                             : null }
-                            <Button variant='primary' type='submit' className='mt-3' >Lähetä</Button>
+                            <Button variant='primary' type='submit' className='mt-3' >Lisää</Button>
                         </Form>
                     </div>
                 : null }
