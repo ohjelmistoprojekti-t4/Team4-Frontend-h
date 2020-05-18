@@ -1,6 +1,5 @@
 import React from 'react';
 import {useState, useEffect} from 'react'
-import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ShowQuestionsByOne from './ShowQuestionByOne';
 
@@ -19,8 +18,7 @@ export default function Questions(props) {
         .then(data => setQuestions(data._embedded.questions))
     }
    
-    console.log("Survey link: ", props.surveyLink);
-    console.log("AnswerSet: ", props.currentAnswerSet);
+    console.log("AnswerSet (questions.js): ", props.currentAnswerSet);
 
     return (
         

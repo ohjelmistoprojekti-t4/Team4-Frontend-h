@@ -1,6 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import AnswerOptions from './AnswerOptions';
 import Spinner from 'react-bootstrap/Spinner';
 import ProgressBar from './form-elements/ProgressBar';
@@ -20,7 +19,6 @@ export default function ShowQuestionsByOne(props) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-        //        'Authorization': 'Basic ' + window.btoa('Administrator:Nimda')
             },
             body: JSON.stringify({ answerSet : 'https://team4back.herokuapp.com/api/answerSets/' + props.answerSetId,
                                    survey : props.surveyLink })
@@ -46,13 +44,6 @@ export default function ShowQuestionsByOne(props) {
     objectMap(props.questions, function(value) {
         questionsArr.push(value);
     })
-
-    // Näytetään seuraava kysymys kun tätä kutsutaan komponentista AnswerOptions
- /*    const callbackFunction = () => {        
-        console.log("Persentage:", statePersentage);
-        nextQuestion();
-   } */
-
     
     const nextQuestion = () => {
             let newIndex;
@@ -60,12 +51,8 @@ export default function ShowQuestionsByOne(props) {
 
             if ((index + 1) === questionsArr.length) {
                 setLastQuestion(true);
-                console.log("now is last increment");
             } else if ((index + 2) === questionsArr.length) {
-                
                 addUniqueUserSession();
-
-                console.log("one more to go!");
                 setBtnLabel("Vastaa ja katso tulokset");
                 newIndex = index + 1;
                 setIndex(newIndex);
@@ -74,11 +61,10 @@ export default function ShowQuestionsByOne(props) {
                 setIndex(newIndex);
             }
     }
-    
-    console.log("Props from question.one.by.one: ", props);
-    console.log("survey link: ", props.survey )
 
-    console.log("From ONEBYONEEEEEE: session: ", props.answerSetId)
+    console.log("To renderAnswers: props.surveyId: ", props.surveyId);
+    console.log("To renderAnswers: props.answerSetId: ", props.answerSetId);
+    
     const Question = () => {
         
         // Kysymysten latauduttua näytetään spinnerin sijaan ensimmäinen kysymys

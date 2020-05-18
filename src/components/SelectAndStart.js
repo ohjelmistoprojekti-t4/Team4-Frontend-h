@@ -10,10 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function SelectAndStart() {
 
-    let base64 = require('base-64');
-
     const [selectedSurvey, setSelectedSurvey] = useState(null);
-    const [selectedSurveyId, setSelectedSurveyId] = useState(null);
     const [surveys, setSurveys] = useState([]);
     const [currentAnswerSet, setCurrentAnswerSet] = useState();
     const [componentToRender, setComponentToRender] = useState("default");
@@ -25,7 +22,6 @@ export default function SelectAndStart() {
     // Kun kyselyt ovat latautuneet lisätään ne select-valikkoon
     useEffect(() => {
         if (surveys !== "") {
-            console.log("surveys", surveys);
             surveys.map(survey => options.push({value: survey._links.self.href, label: survey.name, id: survey.id}))
         }
     });
@@ -60,17 +56,14 @@ export default function SelectAndStart() {
     const addAnswerSet = () => {
     fetch('https://team4back.herokuapp.com/api/answerSets', {
         method: 'POST',
-     //   mode: 'no-cors',
-   //     credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
-     //       'Authorization': 'Basic ' + base64.encode('Administrator:Nimda')
         },
         body: JSON.stringify({})
     })
         .then(response => response.json())
         .then(data => {
-            console.log("First data: ", data.answerSetId);
+            console.log("First data asetID: ", data.answerSetId);
             setCurrentAnswerSet(data.answerSetId);
         })
         .catch(err => console.log(err))
@@ -79,7 +72,6 @@ export default function SelectAndStart() {
     // Valikko, jolla asetetaan valittu kysely muuttujaan selectedSurvey
     const handleSurveySelection = (selectedSurvey) => {
         setSelectedSurvey(selectedSurvey);
-        console.log("Option selected:", selectedSurvey);
     };
 
     function renderComponent(type) {

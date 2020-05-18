@@ -39,7 +39,9 @@ const AnswerOptions = (props) => {
         setCheckboxes({...checkboxes, [event.target.name] : [optionStr, event.target.checked, optionid]});
     }
 
+
     const addAnswer= (answer) => {
+      console.log("AnswerObje: ", answerBody);
     fetch('https://team4back.herokuapp.com/api/userAnswers', {
         method: 'POST',
         headers: {
@@ -70,7 +72,6 @@ const AnswerOptions = (props) => {
           }
         }
       }
-      console.log("AnswerBdy: ", answerBody);
       answerBody.forEach( addAnswer );
       props.nextQuestion();
     }
@@ -94,7 +95,6 @@ const AnswerOptions = (props) => {
     objectMap(options, function(value) {
       optionsArr.push(value);
     }); */
-    console.log("optionsObj: ", options);
     //console.log("optionsArr: ", optionsArr);
     function renderOptions(type) {
     switch(type) {
