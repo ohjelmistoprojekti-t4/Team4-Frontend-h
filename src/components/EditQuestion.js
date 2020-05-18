@@ -57,15 +57,11 @@ export default function EditQuestion(props) {
     }
 
     const handleEditableQuestionChange = (event) => {
-        console.log(event.target.value)
         setEditableQuestion({ ...editableQuestion, question: event.target.value })
     }
 
     const handleEditableQuestionOptionsChange = (item, event) => {
-        console.log(event.target.value)
-        console.log(item)
         const changedOption = { ...item, option: event.target.value }
-        console.log('changed option', changedOption)
         setEditableQuestionOptions(editableQuestionOptions.map(note => note.optionid !== changedOption.optionid ? note : changedOption))
     }
 
@@ -101,8 +97,6 @@ export default function EditQuestion(props) {
             return
         }
 
-        console.log('handleSubmitEdit editableQuestion', editableQuestion.id)
-
         if (form.checkValidity() === true) {
         const response = await fetch(`https://team4back.herokuapp.com/putQuestion/${editableQuestion.id}`, {
             method: 'PUT',
@@ -114,7 +108,6 @@ export default function EditQuestion(props) {
 
             await response.json().then(
                 data => {
-                    console.log('handleSubmitEdit data', data)
                     setSurveyQuestions(surveyQuestions.map(question => question.id !== editableQuestion.id ? question : data))
                     setNotification(true)
                     setTimeout(() => {
@@ -136,7 +129,7 @@ export default function EditQuestion(props) {
             fetch(`https://team4back.herokuapp.com/api/questions/${id}`, { 
                 method: 'DELETE',
             })
-            .then(response => console.log( 'response', response))
+            .then(response => console.log( 'delete response', response))
             .then(setSurveyQuestions(surveyQuestions.filter(question => question.id !== id)))
         }
     }
