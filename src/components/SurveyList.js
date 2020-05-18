@@ -10,26 +10,24 @@ const SurveyList = (props) => {
   const [surveys, setSurveys] = useState([])
   const [rendering, setRendering] = useState(false)
 
-  useEffect(() => fetchData(), [props.adding])
+  
   useEffect(() => {
     if (props.adding===true && surveys !== "") {
-
-        console.log("surveys", surveys);
         props.setAdding(false)
+        fetchData()
     }
   }
   );
-
-  useEffect(() => fetchData(), [rendering])
+  
   useEffect(() => {
     if (rendering===true && surveys !== "") {
-
-        console.log(surveys, "surveys");
         setRendering(false)
+        fetchData()
     }
   }
   );
-
+useEffect(() => fetchData(), [rendering])
+useEffect(() => fetchData(), [props.adding])
   const fetchData = () => {
     fetch('https://team4back.herokuapp.com/api/surveys')
       .then(response => response.json())
@@ -46,11 +44,9 @@ const SurveyList = (props) => {
         }
       }) 
 
-      console.log("deleted", surveys)
       setRendering(true)
     }
   }
-
   const [uniqueEdit, setUniqueEdit] = useState({});
   function ShowAndUnique(event){
     setShow(!show)

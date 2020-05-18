@@ -8,7 +8,6 @@ const SurveyEdit = (props) => {
 
   const handleEdit = (event) => {
       setEditName({...editName, [event.target.name]: event.target.value})
-      console.log(editName)
     }
 
   function editSurvey(){
@@ -22,7 +21,6 @@ const SurveyEdit = (props) => {
         body: JSON.stringify(editName)
     }) 
     
-    console.log("Survey", editName)
     props.render(true)
     } else {
       alert("Anna kyselyn uusi nimi!")
