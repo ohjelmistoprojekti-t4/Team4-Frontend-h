@@ -131,7 +131,7 @@ export default function AddQuestion(props) {
             <Row>
                 <Col md={8}>
 
-                <h1 className='main-h1'>Lisää kysymyksiä</h1>
+                <h1 className='content-h1'>Lisää kysymyksiä</h1>
                 
                 <Select
                     className='select-survey'

@@ -1,12 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@700;800;900&display=swap');
 body {
-  background: #fafafa;  /* fallback for old browsers */
-  font-family: 'lato', sans-serif;
-  background-color: #ffffff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23e0d8ec' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+  background: #fafafa;
+  font-family: 'Merriweather Sans', sans-serif;
+  
 }
 
+.btn-primary {
+  color: #fff;
+  background-color: #3a6dab;
+  border-color: #3a6dab;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #5693ce;
+  border-color: #5693ce;
+}
+.btn-outline-primary {
+  color: #3a6dab;
+  border-color: #3a6dab;
+}
+.btn-outline-primary:hover {
+  color: #3a6dab;
+  border-color: #3a6dab;
+}
 .navbar-light .navbar-toggler {
   border: none;
   outline: none;
@@ -48,7 +66,7 @@ button #nav-icon3 span {
 }
 
 button #nav-icon3:hover > span {
-  background: #883511;
+  background: #b61e85;
 }
 
 button #nav-icon3 span:nth-child(1) {
@@ -88,23 +106,24 @@ button:not(.collapsed) #nav-icon3 span:nth-child(4) {
   width: 0%;
   left: 50%;
 }
-.navbar {
-  padding: 0 2em 0 2em;
-  border-bottom: 1px solid #ececec;
+body .navbar {
+  padding: 0 1em 0 0.8em;
+  border-bottom: 1px solid#d4eaf9;
+  background-color: #f1f2f3!important;
+
 }
 
-.navbar-brand {
+.navbar-light .navbar-brand {
   padding: 1em 1.4em 1em 1.15em;
-  font-weight: 900;
-  font-size: 1.1em;
+  font-weight: 700;
+  font-size: 1.2em;
+  color: rgb(182, 30, 133);
 }
 
 .navbar-expand-lg .navbar-nav .nav-link {
   padding: 0.6em 1em 0.7em 1em;
   color: #12776d;
   /* text-transform: uppercase; */
-  font-family: 'lato', sans-serif;
-  font-weight: 400;
   font-size: 1.5em;
   line-height: 1.2;
   border-radius: 6px;
@@ -116,7 +135,7 @@ div.show .btn {
 
 
 
-.navbar-nav a.active {
+.mr-auto a.active {
   color: #7aa3cc;
   background: rgba(0,0,0,0.05);
   font-weight: 700;
@@ -127,10 +146,44 @@ div.show .btn {
   color: #7aa3cc;
 }
 
-.main-h1 {
-  margin: 1.5em 0 1em 0;
-  font-weight: 300;
+.login-btn {
+  margin-left: 1em;
 }
+
+.main-hero {
+  padding: 2em;
+  margin-top: 0;
+}
+
+.main-h1 {
+  margin: 0.1em 0 0 0;
+  font-family: 'Catamaran', sans-serif;
+  font-weight: 900;
+  color: #3a6dab;
+  font-size: 2.5em;
+}
+
+.content-h1 {
+  margin: 1em 0 1em 0;
+  font-size: 2.5em;
+  font-family: 'Catamaran', sans-serif;
+  font-weight: 600;
+  color: #3a6dab;
+  line-height: 1;
+}
+.quiz-h1 {
+  margin: 0 0 1.2em 0;
+  font-size: 2.5em;
+  font-family: 'Catamaran', sans-serif;
+  font-weight: 600;
+  color: #3a6dab;
+  line-height: 1;
+}
+
+h4 {
+  color: #8b9dbc;
+}
+
 
 /******* Questions *******/
 
@@ -320,7 +373,7 @@ dl, ol, ul {
 }
 
 .single-answer-charts-ul li.aSet {
-  border: 0.2em solid #ff6464;
+  border: 0.2em solid #ed3895;
   padding: 0.7em 2.8em 0.8em;
 }
 .single-answer-list-ul li {
@@ -338,7 +391,7 @@ dl, ol, ul {
 }
 
 .single-answer-list-ul li.aSet {
-  border: 0.2em solid #ff6464;
+  border: 0.2em solid #ed3895;
   padding: 0.15em 1.8em 0.3em;
 }
 
@@ -372,8 +425,10 @@ dl, ol, ul {
 
 .select-survey {
   max-width: 40em;
-  margin: 2em 0 3em;
+  margin: 2em 0 2em;
 }
+
+
 .add-radio-form {
   padding: 1em 2em;
 }
@@ -460,17 +515,18 @@ dl, ol, ul {
 
 @media (min-width: 992px) {
 
-  .navbar-brand {
-    padding: 0 3em 0 2em;
-    font-size: 1.1em;
-
+  .navbar {
+    padding: 0 2em 0 2em;
   }
 
+  .navbar-light .navbar-brand {
+    padding: 0 2em 0 2em;
+    font-size: 1.5em;
+  }
+  
   .navbar-expand-lg .navbar-nav .nav-link {
     padding: 1.2em 1.4em 1.3em 1.4em;
-      color: #12776d;
-      /* text-transform: uppercase; */
-      font-family: 'lato', sans-serif;
+      color: #203e79;
       font-weight: 400;
       font-size: 1em;
       border-radius: 0;
@@ -479,5 +535,30 @@ dl, ol, ul {
   dl, ol, ul {
       padding-left: 3em;
   }
+
+  .main-hero {
+    padding: 4em;
+    margin-top: 6vh;
+  /*
+    box-shadow: 0 3px 24px -3px rgba(32, 62, 121, 0.2), 0 4px 6px -2px rgba(0,0,0,.05);
+  */
+  }
+  
+ 
+  .main-h1 {
+    margin: 0.6em 0 0.2em 0;
+    font-size: 3.6em;
+}
+  
+  .content-h1 {
+    margin: 1.8em 0 1.2em 0;
+    font-size: 2.5em;
+  }
+
+  .quiz-h1 {
+    margin: 0 0 1.2em 0;
+    font-size: 2.5em;
+  }
+
 
 }

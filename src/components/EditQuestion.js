@@ -138,7 +138,7 @@ export default function EditQuestion(props) {
         <Container fluid={'xl'} className='BodyContainer add-question-component'>
             <Row>
                 <Col md={8}>
-                    <h1 className='main-h1'>Muokkaa kysymyksiä</h1>
+                    <h1 className='content-h1'>Muokkaa kysymyksiä</h1>
                     <Select
                         className='select-survey'
                         value={selectedSurvey}

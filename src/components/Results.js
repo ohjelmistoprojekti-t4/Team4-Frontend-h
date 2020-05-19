@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Results(props) {
 
-    const [title, setTitle] = useState("Kaikki vastaukset kaikkiin kysymyksiin");
+    const [title, setTitle] = useState("Kaikki vastaukset");
 
     const [selectedSurvey, setSelectedSurvey] = useState(null);
     const [selectedSession, setSelectedSession] = useState(null);
@@ -82,7 +82,7 @@ export default function Results(props) {
 
             <Row>
                 <Col md={12}>
-                <h1 className="main-h1">{title}</h1>
+                <h1 className="content-h1">{title}</h1>
  
                 <Select
                             className="select-survey"

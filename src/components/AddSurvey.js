@@ -39,7 +39,7 @@ export default function AddSurvey(props) {
         <Container fluid={"xl"} className="BodyContainer">
             <Row>
                 <Col>
-                <h1 className="main-h1">Lisää kysely</h1>
+                <h1 className="content-h1">Lisää kysely</h1>
                     <div id="survey-form">
                         
                         <input type="text" className="AddSurveyInput" id="1" name="name" value={newSurvey.name} placeholder="Kyselyn nimi" onChange={handleChange} />

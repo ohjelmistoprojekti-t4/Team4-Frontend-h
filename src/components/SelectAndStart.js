@@ -1,7 +1,6 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
-import { NavLink, Link, Redirect } from 'react-router-dom';
-import base64 from 'base-64';
+import IndexHero from './img/index-hero-tr.png';
 import Questions from './Questions';
 
 import { Container, Row, Col, Button } from 'react-bootstrap';
@@ -80,28 +79,37 @@ export default function SelectAndStart() {
             // Näytetään kysely ja keskeyttämisen mahdollistava painike
             return(
                 <>
-                    <h1 className="main-h1">{selectedSurvey.label}
-                        <Button type="button" variant="link" className="cancelSurveyBtn" onClick={() => cancelSurvey() }>
-                            Keskeytä kysely
-                        </Button>
-                    </h1>
+                    
+                        <h1 className="quiz-h1">{selectedSurvey.label}
+                            <Button type="button" variant="link" className="cancelSurveyBtn" onClick={() => cancelSurvey() }>
+                                Sulje
+                            </Button>
+                        </h1>
 
-                    <Questions surveyId={selectedSurvey.id} surveyLink={selectedSurvey.value} currentAnswerSet={currentAnswerSet} />
+                        <Questions surveyId={selectedSurvey.id} surveyLink={selectedSurvey.value} currentAnswerSet={currentAnswerSet} />
+                        
                 </>
             )
           default:
             // Oletuksena näytetään lista kyselyistä ja muut mahdolliset aloitussivun komponentit
             return (
                   <> 
-                    <h1 className="main-h1">Valitse kysely ja aloita</h1>
-                        <Select
-                        className="select-survey"
-                        value={selectedSurvey}
-                        onChange={handleSurveySelection}
-                        options={options}
-                        placeholder="Valitse kysely..."
-                        />
-                        <Button type="button" onClick={() => startSurvey() }>Aloita kysely</Button>
+                  <Row>
+                    <Col sm={12} md={6}>
+                        <h1 className="main-h1">Valitse kysely!</h1>
+                            <Select
+                            className="select-survey"
+                            value={selectedSurvey}
+                            onChange={handleSurveySelection}
+                            options={options}
+                            placeholder="Valitse kysely..."
+                            />
+                            <Button type="button" onClick={() => startSurvey() }>Aloita kysely</Button>
+                    </Col>
+                    <Col sm={12} md={6}>
+                            <img src={IndexHero} className="img-fluid" alt="Mestarikysely" />
+                    </Col>
+                    </Row>
                   </>
             )
         }
@@ -112,9 +120,9 @@ export default function SelectAndStart() {
         <Container fluid={"xl"} className="BodyContainer">
 
             <Row>
-                <Col className="col-xs-12 col-xl-8">
+                <Col className="main-hero">
                     
-                    {renderComponent(componentToRender)}
+                        {renderComponent(componentToRender)}
     
                 </Col>
             </Row>

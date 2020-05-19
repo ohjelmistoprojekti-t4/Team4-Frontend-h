@@ -11,20 +11,23 @@ export default function RenderAnswers(props) {
     console.log("renderAnswers props: ", props);
     console.log("Selected aSet from renderAnswers: ", selectedAnswerSet);
     console.log("Selected survey(id) from renderAnswers: ", idToFetch);
-    useEffect(() => {
-        fetchAllAnswers();
-      }, [idToFetch]);
-
+ 
       
 
     useEffect(() => {
         if (props.surveyId) {
+            fetchAllAnswers();
             console.log("PROPS from render :", props)
             console.log("selected survey from render :", props.surveyId.value)
             let newId = props.surveyId.value;
             setIdToFetch(newId);
         }
     });
+
+    useEffect(() => {
+        fetchAllAnswers();
+      }, [idToFetch]);
+
 
      const fetchAllAnswers = () => {
         console.log("IDDD form fetch: ", idToFetch);
@@ -87,8 +90,8 @@ export default function RenderAnswers(props) {
         console.log("Loaded userAnswers: ", userAnswers);
         return (
             <>
-            <h3>Kysely: {titleSurvey}</h3>
-            <h3>Vastauskerran ID: {titleSession}</h3>
+            <h4>Kysely: {titleSurvey}</h4>
+            <h4>Vastauskerran ID: {titleSession}</h4>
 
             {Object.keys(groupedAnswers[0]['inputAnswers']).map(key =>  
             <div className="result-div">

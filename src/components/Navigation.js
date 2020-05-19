@@ -26,24 +26,37 @@ export default function Navigation(props) {
             </span>
             </Navbar.Toggle>
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto">
-                    <Nav.Link eventKey="1" as={Link} to="/start" activeClassName="active">Kysely</Nav.Link>
-                    { props.user ?
-                            <>
+            
+            { props.user ?
+            <>
+                        <Nav className="mr-auto">
+                    
+                                <Nav.Link eventKey="1" as={Link} to="/start" activeClassName="active">Kysely</Nav.Link>
                                 <Nav.Link eventKey="2" as={Link} to="/results" activeClassName="active">Tulokset</Nav.Link>
                                 <Nav.Link eventKey="3" as={Link} to="/addsurvey" activeClassName="active">Lisää ja muokkaa kyselyitä</Nav.Link>
                                 <Nav.Link eventKey="4" as={Link} to="/addquestion" activeClassName="active">Lisää kysymyksiä</Nav.Link>
                                 <Nav.Link eventKey="5" as={Link} to="/editquestion" activeClassName="active">Muokkaa kysymyksiä</Nav.Link>
-                                <Navbar.Text>
-                                    Kirjautunut: {props.user.username}
-                                </Navbar.Text>
-                                <NavLink to="/" activeClassName="active">
-                                    <Button variant="outline-primary" onClick={props.handleLogout}>Kirjaudu ulos</Button>
-                                </NavLink>
-                            </>
-                            : <Button variant="outline-primary" onClick={loginShow}>Kirjaudu sisään</Button>
-                        }
-                    </Nav>
+                        </Nav>
+
+                        <Nav>
+                            <Navbar.Text>
+                                Kirjautunut: {props.user.username}
+                            </Navbar.Text>
+                            <NavLink to="/" activeClassName="active">
+                                <Button className="login-btn" variant="outline-primary" onClick={props.handleLogout}>Kirjaudu ulos</Button>
+                            </NavLink>
+                        </Nav>
+            </>
+            :
+            <>
+                        <Nav className="mr-auto">
+                            <Nav.Link eventKey="1" as={Link} to="/start" activeClassName="active">Kysely</Nav.Link>
+                        </Nav>    
+                        <Nav>    
+                                <Button className="login-btn" variant="outline-primary" onClick={loginShow}>Kirjaudu sisään</Button>
+                        </Nav>
+            </>
+            }
                 </Navbar.Collapse>
             </Navbar>
             <SignInModal show={show} loginClose={loginClose} handleUser={props.handleUser} />
