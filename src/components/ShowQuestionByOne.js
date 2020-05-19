@@ -25,7 +25,6 @@ export default function ShowQuestionsByOne(props) {
         })
             .then(response => response.json())
             .then(data => {
-                console.log("User session created: ", data);
                 setUserSession(data.uniqueId);
             })
             .catch(err => console.log(err))
@@ -62,9 +61,6 @@ export default function ShowQuestionsByOne(props) {
             }
     }
 
-    console.log("To renderAnswers: props.surveyId: ", props.surveyId);
-    console.log("To renderAnswers: props.answerSetId: ", props.answerSetId);
-    
     const Question = () => {
         
         // Kysymysten latauduttua näytetään spinnerin sijaan ensimmäinen kysymys

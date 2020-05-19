@@ -26,12 +26,10 @@ export default function Results(props) {
 
     useEffect(() => {
         if (surveys !== "") {
-            console.log("surveys", surveys);
             surveys.map(survey => surveysSelect.push({value: survey.id, label: survey.name}))
         }
 
         if (sessions !== "") {
-            console.log("sessions", sessions);
             sessions.map(session => 
                 sessionsSelect.push({value: session.uniqueId, label: session.uniqueId})
             );
@@ -75,7 +73,6 @@ export default function Results(props) {
         })
     }
 
-    console.log("From results: aSet: ", selectedAnswerSet)
     return (
         <>
         <Container fluid={"xl"} className="BodyContainer results-component">

@@ -200,11 +200,12 @@ dl, ol, ul {
 
 .question-container {
   border: 0 solid #e6e6e6;
-  padding: 2em 3em 2em 3em;
+  padding: 2em 2em 2em 2em;
   border-top-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  box-shadow: 0 3px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05);
-  background: #fff;;
+  box-shadow: 0 3px 24px -3px rgba(32, 62, 121, 0.2), 0 4px 6px -2px rgba(32, 62, 121, 0.01);
+  background: #fff;
+  max-width: 55em;
 }
 
 .question-card {
@@ -215,15 +216,21 @@ dl, ol, ul {
   font-weight: 500;
   text-align: left;
   font-size: 1.9em;
-  color: #7AA3CC;
-  margin: -0.3em 1em 1.3em 0;
+  color: #5693ce;
+  margin: -0.3em 1em 1em 0;
 }
 
 .options-container {
   min-height: 7em;
   padding-left: 25%;
   margin-bottom: 2.7em;
+}
 
+.options-container-input {
+  min-height: 7em;
+  padding-left: 10%;
+  padding-right: 10%;
+  margin-bottom: 2.7em;
 }
 
 .options-container li {
@@ -280,7 +287,7 @@ dl, ol, ul {
 
 .btnSubmitQuestion {
   margin-top: 1em;
-  padding: 0.5em 3em;
+  padding: 0.5em 3em 0.7em;
   display: flex;
   margin-left: auto;
   border: 0.16em solid #DDDDDD;
@@ -288,12 +295,12 @@ dl, ol, ul {
   box-sizing: border-box;
   text-decoration: none;
   text-transform: normal;
-  font-family: sans-serif;
   font-weight:600;
   color: #7AA3CC;
   text-align: center;
   transition: all 0.15s;
   background: #fff;
+  line-height: 1.4;
 }
 
 .btnSubmitQuestion:hover{
@@ -318,7 +325,7 @@ dl, ol, ul {
 
 .result-div {
   padding: 0;
-  max-width: 30em;
+  max-width: 55em;
   margin-top: 2em;
 }
 
@@ -366,6 +373,7 @@ dl, ol, ul {
   font-size: 1.2em;
   position: relative;
   border-radius: 6px;
+  max-width: 29em;
 }
 
 .single-answer-charts-ul li.reg {
@@ -439,44 +447,25 @@ dl, ol, ul {
 .progress-bar {
   position: relative;
   height: 0.4em;
-  background-color: #f0f0f0;
+  background-color: #d4eaf9;
   border: 0px solid rgb(243, 243, 243);
   border-top-left-radius: 10px;
-  margin: -2em -3em 0 -3em;
+  margin: -2em -2em 0 -2em;
 }
 
 .filler {
-  background: #24cfbe;
+  background: #ed3895;
   height: 100%;
   border-radius: inherit;
   transition: width .2s ease-in;
 }
 
-/*   background-image: 
-    repeating-linear-gradient(
-      -45deg, 
-      transparent, 
-      transparent 1rem,
-      #ccc 1rem,
-      #ccc 2rem
-    );
-  background-size: 200% 200%;
-  animation: barberpole 10s linear infinite;
-}
-
-@keyframes barberpole {
-  0% {
-    background-position: 100% 100%;
-  }
- 
-}
-*/
-
 .question-count {
   text-align: right;
-  color: #e2e2e2;
-  font-size: 2.5em;
+  color: #d4eaf9;
+  font-size: 2em;
   font-variant: diagonal-fractions;
+  margin: 0.5em 0 0 0;
 }
 
 /******* AddSurvey *******/
@@ -539,12 +528,8 @@ dl, ol, ul {
   .main-hero {
     padding: 4em;
     margin-top: 6vh;
-  /*
-    box-shadow: 0 3px 24px -3px rgba(32, 62, 121, 0.2), 0 4px 6px -2px rgba(0,0,0,.05);
-  */
   }
   
- 
   .main-h1 {
     margin: 0.6em 0 0.2em 0;
     font-size: 3.6em;
@@ -558,6 +543,25 @@ dl, ol, ul {
   .quiz-h1 {
     margin: 0 0 1.2em 0;
     font-size: 2.5em;
+  }
+
+  .question-container {
+    padding: 2em 3em 2em 3em;
+  }
+
+  .question-count {
+    font-size: 2.5em;
+  }
+
+  .progress-bar {
+    margin: -2em -3em 0 -3em;
+  }
+
+  .options-container-input {
+    min-height: 7em;
+    padding-left: 28%;
+    padding-right: 0;
+    margin-bottom: 2.7em;
   }
 
 

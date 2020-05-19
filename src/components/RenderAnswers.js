@@ -8,17 +8,9 @@ export default function RenderAnswers(props) {
     const [userAnswers, setUserAnswers] = useState([]);
     const [idToFetch, setIdToFetch] = useState();
 
-    console.log("renderAnswers props: ", props);
-    console.log("Selected aSet from renderAnswers: ", selectedAnswerSet);
-    console.log("Selected survey(id) from renderAnswers: ", idToFetch);
- 
-      
-
     useEffect(() => {
         if (props.surveyId) {
             fetchAllAnswers();
-            console.log("PROPS from render :", props)
-            console.log("selected survey from render :", props.surveyId.value)
             let newId = props.surveyId.value;
             setIdToFetch(newId);
         }
@@ -30,7 +22,6 @@ export default function RenderAnswers(props) {
 
 
      const fetchAllAnswers = () => {
-        console.log("IDDD form fetch: ", idToFetch);
         if (idToFetch !== undefined) {
             fetch('https://team4back.herokuapp.com/getUserAnswersBySurvey/' + idToFetch)
             .then(response => response.json())
@@ -85,9 +76,7 @@ export default function RenderAnswers(props) {
                 }
             }
         }   
-
-        console.log("GroupedAnswers: ", groupedAnswers);
-        console.log("Loaded userAnswers: ", userAnswers);
+        
         return (
             <>
             <h4>Kysely: {titleSurvey}</h4>

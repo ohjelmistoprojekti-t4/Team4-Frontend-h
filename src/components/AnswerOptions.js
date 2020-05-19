@@ -53,7 +53,6 @@ const AnswerOptions = (props) => {
     };
 
     const sendAndNextQuestion = () => {
-      console.log("checkboxes: ", checkboxes)
       if (props.type === 2) {
         for (const checkbox in checkboxes) {
           if (checkboxes[checkbox][1] === true) {   // Muodostetaan json-answer-body vain, jos checkbox on valittuna
@@ -82,20 +81,6 @@ const AnswerOptions = (props) => {
       .then(data => setOptions(data._embedded.options))
     }
 
-  /*   function objectMap(object, mapFn) {
-      return Object.keys(object).reduce(function(result, key) {
-        result[key] = mapFn(object[key])
-        return result
-      }, {})
-    }
-
-    let optionsArr = [];
-    //// Fix this: NO need in optionsArr!!! Just "options data"
-
-    objectMap(options, function(value) {
-      optionsArr.push(value);
-    }); */
-    //console.log("optionsArr: ", optionsArr);
     function renderOptions(type) {
     switch(type) {
       case 1:
@@ -123,8 +108,8 @@ const AnswerOptions = (props) => {
       default:
         return (
         <> 
-        <div className="options-container">
-        <i className="fa fa-pencil-square icon"></i>
+        <div className="options-container-input">
+        {/* <i className="fa fa-pencil-square icon"></i> */}
         <input type="text" name="textAnswer" id="input1" data-question={props.link} autocomplete="off"
           value={props.value} onChange={handleInputChange} autoFocus placeholder="Vastaus..." className="answerInput"></input>
         </div>
